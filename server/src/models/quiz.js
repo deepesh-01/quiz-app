@@ -6,6 +6,10 @@ const QuizSchema = new mongoose.Schema({
         type:String,
         required:"Quiz name is required",
     },
+    questions:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Questions',
+    }],
     noOfQue:{
         type:Number,
         default:0,
