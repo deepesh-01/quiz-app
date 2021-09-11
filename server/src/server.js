@@ -34,5 +34,5 @@ require("./middlewares/jwt")(passport);
 
 //Configure Route
 require('./routes/index')(app);
-console.log("JWT_SECRET:"+process.env.JWT_SECRET);
+// console.log("JWT_SECRET:"+process.env.JWT_SECRET);
 app.listen(PORT, () => console.log('Server running on http://localhost:'+PORT+'/'));

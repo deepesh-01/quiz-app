@@ -3,6 +3,8 @@ const Float = require('mongoose-float').loadType(mongoose,3);
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// const Quiz = require('./quiz');
+
 const UserSchema = new mongoose.Schema({
     email:{
         type:String,
@@ -27,14 +29,10 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:"Phone number is required",
     },
-    appeared:{
-        type:Boolean,
-        default:false,
-    },
-    score:{
-        type:Float,
-        default:null,
-    },
+    appeared:[{
+        quiz : {type:mongoose.Schema.Types.ObjectId, ref:'Quizes',},
+        score : {type:Number, default : 0}
+    }],
     admin:{
         type:Boolean,
         default:false,
@@ -83,4 +81,4 @@ UserSchema.methods.generateJWT = function() {
 };
 
 mongoose.set('useFindAndModify', false);
-module.exports = mongoose.model('Users', UserSchema);
+module.exports  = mongoose.model('Users', UserSchema);

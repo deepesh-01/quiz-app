@@ -5,6 +5,7 @@ const User = require('../models/user');
 // @access public 
 
 exports.index = async function (req,res){
+    console.log("req.user :",req.user);
     const  users = await User.find({});
     res.status(200).json({users});
 };
@@ -12,6 +13,7 @@ exports.index = async function (req,res){
 // @route Post api/user
 // @desc add a new user 
 // @access public
+
 exports.store = async (req,res) => {
     try{
         const {email} = req.body;

@@ -1,4 +1,8 @@
 require('dotenv').config();
+
+const secret = process.env.JWT_SECRET;
+const port = process.env.PORT;
+
 const Jwtstrategy = require('passport-jwt').Strategy,
       ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -6,10 +10,12 @@ const Jwtstrategy = require('passport-jwt').Strategy,
 
       const opts = {
           jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-          secretOrKey:process.env.JWT_SECRET,
+          secretOrKey: secret,
         };
 
         module.exports = passport => {
+            // console.log("secret :",secret);
+            // console.log("port :",port);
             passport.use(
                 new Jwtstrategy(opts, (jwt_payload, done) => {
                     User.findById(jwt_payload.id)
