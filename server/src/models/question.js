@@ -22,6 +22,10 @@ const QuestionSchema = new mongoose.Schema({
     option4:{
         type:String,  
     },
+    correctOption:{
+        type:String,
+        required:"Please enter the correct answer",
+    },
     quizId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Quizes'

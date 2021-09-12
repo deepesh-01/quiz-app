@@ -7,7 +7,7 @@ const Quiz = require('../models/quiz');
 // @access Public
 
 exports.getAll = async (req,res) => {
-    const  quizes = await Quiz.find({}).populate('questions');
+    const  quizes = await Quiz.find({});
     res.status(200).json({quizes});
 }
 

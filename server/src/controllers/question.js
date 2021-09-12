@@ -48,7 +48,10 @@ exports.deleteQuestion = async (req,res) => {
      const quesId = req.body.id;
  
      const question = await Question.findByIdAndDelete(quesId);
- 
+     const quizId = question.quizId;
+     const updateQuiz = await Quiz.findByIdAndUpdate(quizId,{$inc : { noOfQue:-1 }, $pull : {questions:question._id} },{new:true});
+     console.log("updated quiz : ",updateQuiz);
+     console.log("deleted quiz : ",question);
      return res.status(200).json({question,message:"Successfully deleted the question"});
     }
     catch(error){
