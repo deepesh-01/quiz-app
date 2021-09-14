@@ -1,39 +1,56 @@
-import React, {useState} from 'react';
-import useStyles from './homeStyles';
-
+import React, {useEffect, useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
-import {CircularProgress,Avatar,Button,CssBaseline,TextField,FormControlLabel,Checkbox,Link,Grid,Box,Typography,Container} from '@material-ui/core';
+import {CircularProgress,Avatar,Button,CssBaseline,TextField,Typography,Container} from '@material-ui/core';
 import {LockOutlined} from '@material-ui/icons';
+import {Alert} from '@material-ui/lab';
 
+import useStyles from './homeStyles';
 import {login} from '../../actions/user';
 
 export const LogIn = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [inputs,setInputs] = useState({
         email : '',
         password: '',
     });
 
+    // console.log("error : ",error);
+    // console.log("load : ",load);
+
+
     const [submitted,setSubmitted] = useState(false);
     const [submitCp,setSubmitCp] = useState(false);
+    const [dis,setDis] = useState(true);
 
 
+    const errMsg = useSelector((state)=>state.data.errMsg);
+    // console.log("errMsg : ", errMsg);
 
     const handleChange = (e) => {
         const value = e.target.value;
         setInputs({...inputs,[e.target.name]:value});
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true);
         setSubmitCp(true);
+
         if( !inputs.email || !inputs.password ) setSubmitCp(false)
         console.log(inputs);
-        dispatch(login(inputs));
+
+        const val = await dispatch(login(inputs));
+        console.log(val);
+        setDis(val); 
+        setSubmitCp(val);
+        console.log("errMsg : ", errMsg);
+        {val ? history.push('/user') : history.push('/')}
+        // console.log("dispatch value : ",dis);
     }
 
     // const {email, password} = inputs;
@@ -79,16 +96,19 @@ export const LogIn = () => {
                       onChange={handleChange}
                       />
                       {submitted && !inputs.password ? <span style={{color:'red'}}>Please enter the password</span> : null}
+                    {/* <Link to={ !error && !load ? "/user" : null } style={{ textDecoration: 'none' }}> */}
 
-                    <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    >
+                    {!dis ? <Alert severity="error"> {errMsg.msg || errMsg.error.password || errMsg.error.email } </Alert> : null}
+                      <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      >
                         Log In
-                    </Button>
+                      </Button>
+                    {/* </Link> */}
 
                       
                   </form>

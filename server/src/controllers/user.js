@@ -10,6 +10,12 @@ exports.index = async function (req,res){
     res.status(200).json({users});
 };
 
+exports.jwtVerify = async (req,res) => {
+    const id = req.user._id;
+    console.log("user if jwt verify : ",id);
+    const user = await User.findById({id})
+}
+
 // @route Post api/user
 // @desc add a new user 
 // @access public

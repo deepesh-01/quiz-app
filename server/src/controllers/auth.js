@@ -26,12 +26,17 @@ exports.register = (req,res) => {
 exports.login = (req,res) =>{
     User.findOne({email : req.body.email})
         .then(user => {
-            if(!user) return res.status(401).json({msg : 'The email address ' + req.body.email + ' is not associated with any account. Double-check your email address and try again.'})
-
+            if(!user){
+                // console.log("Invalid email!")   
+                return res.status(401).json({msg : 'The email address ' + req.body.email + ' is not associated with any account. Double-check your email address and try again.'})
+            }
             // validate password
 
-            if(!user.comparePassowrd(req.body.password)) return res.status(401).json({message:"Invalid email or password"});
-
+            if(!user.comparePassowrd(req.body.password)){ 
+                // console.log("Invalid email or password!");
+                return res.status(401).json({msg:"Invalid email or password"});
+                
+            }
             // login successful, write token, and send back user 
             res.sendStatus = 200;
             res.json({token: user.generateJWT(), user:user});

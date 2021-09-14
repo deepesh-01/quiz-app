@@ -1,4 +1,4 @@
-export default (initialState = {user:null,quizes:[],questions:[],load:true,error:false}, action) => {
+export default (initialState = {user:null,quizes:[],questions:[],load:false,error:false,errMsg:null}, action) => {
     switch(action.type){
         case "LOGIN":
             return {...initialState,user:action.user,load:false,error:false}
@@ -7,8 +7,8 @@ export default (initialState = {user:null,quizes:[],questions:[],load:true,error
         case "LOAD":
             return {...initialState,load:true}
         case "ERROR":
-            return {...initialState,load:false,error:true}
+            return {...initialState,load:false,error:true,errMsg:action.msg}
         default :
-            return {...initialState,load:true}
+            return {...initialState}
     }
 }
