@@ -8,6 +8,7 @@ import {BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
 import {LogIn} from './components/home/home.js';
 import {Header} from './components/header/header.js';
 import {User} from './components/User/user.js'
+import {Register} from './components/register/register.js';
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
       <div>
           <Header></Header>
           <Switch>
-            <Route exact path="/"> <LogIn/> </Route>
             <Route path="/user"> <User/> </Route>
+            <Route path="/register"> <Register/> </Route>
+            <Route path="/"> <LogIn/> </Route>
           </Switch>
         {/* <CircularProgress></CircularProgress> */}
       </div>

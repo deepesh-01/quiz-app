@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const mongoose = require('mongoose');
 
 // @route get admin/user
 // @desc returns all users
@@ -11,9 +12,11 @@ exports.index = async function (req,res){
 };
 
 exports.jwtVerify = async (req,res) => {
-    const id = req.user._id;
-    console.log("user if jwt verify : ",id);
-    const user = await User.findById({id})
+    const _id = req.user._id;
+    // const _id = mongoose.Types.ObjectId(userid);
+    console.log("user id jwt verify : ",_id);
+    const user = await User.findById({_id})
+    res.status(200).json({user});
 }
 
 // @route Post api/user

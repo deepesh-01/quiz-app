@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import {CircularProgress,Avatar,Button,CssBaseline,TextField,Typography,Container} from '@material-ui/core';
+import {CircularProgress,Avatar,Button,CssBaseline,TextField,Typography,Container,Grid,Link} from '@material-ui/core';
 import {LockOutlined} from '@material-ui/icons';
 import {Alert} from '@material-ui/lab';
 
@@ -108,6 +108,19 @@ export const LogIn = () => {
                       >
                         Log In
                       </Button>
+
+                      <Grid container>
+                        {/* <Grid item xs>
+                          <Link href="#" variant="body2">
+                            Forgot password?
+                          </Link>
+                        </Grid> */}
+                          <Grid item >
+                            <Link className={classes.center} href='/register' variant="body2">
+                              {"Don't have an account? Sign Up"}
+                            </Link>
+                          </Grid>
+                        </Grid>
                     {/* </Link> */}
 
                       

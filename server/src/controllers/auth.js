@@ -7,7 +7,7 @@ const User = require('../models/user');
 exports.register = (req,res) => {
     User.findOne({email:req.body.email})
         .then(user => {
-            if (user) return res.status(401).json({message: 'Error! User already registerd'});
+            if (user) return res.status(401).json({message: 'Error! User already registered'});
 
             //create and save user 
             const newUser = new User(req.body);
