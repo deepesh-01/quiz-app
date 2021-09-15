@@ -27,8 +27,8 @@ export const LogIn = () => {
     const [submitCp,setSubmitCp] = useState(false);
     const [dis,setDis] = useState(true);
 
-
     const errMsg = useSelector((state)=>state.data.errMsg);
+    
     // console.log("errMsg : ", errMsg);
 
     const handleChange = (e) => {
@@ -40,10 +40,9 @@ export const LogIn = () => {
         e.preventDefault();
         setSubmitted(true);
         setSubmitCp(true);
-
         if( !inputs.email || !inputs.password ) setSubmitCp(false)
         console.log(inputs);
-
+        
         const val = await dispatch(login(inputs));
         console.log(val);
         setDis(val); 
@@ -98,7 +97,7 @@ export const LogIn = () => {
                       {submitted && !inputs.password ? <span style={{color:'red'}}>Please enter the password</span> : null}
                     {/* <Link to={ !error && !load ? "/user" : null } style={{ textDecoration: 'none' }}> */}
 
-                    {!dis ? <Alert severity="error"> {errMsg.msg || errMsg.error.password || errMsg.error.email } </Alert> : null}
+                    {!dis ? <Alert severity="error"> {errMsg.msg || errMsg.error.email || errMsg.error.password } </Alert> : null}
                       <Button
                       type="submit"
                       fullWidth

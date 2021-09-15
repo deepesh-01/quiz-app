@@ -14,6 +14,15 @@ const QuizSchema = new mongoose.Schema({
         type:Number,
         default:0,
     },
+    participants:[{
+        type:mongoose.Schema.Types.ObjectId, 
+        ref:'Users',
+        score:Number,
+        }],
+    description:{
+        type:String,
+        required:"Description is required",
+    },
     createdBy:{
         type:mongoose.Schema.Types.ObjectId, 
         ref:'Users',

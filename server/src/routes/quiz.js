@@ -12,7 +12,7 @@ router.post('/newquiz', authenticate.UserAdmin , Quiz.newQuiz);
 
 router.put('/updatequiz', authenticate.UserAdmin , Quiz.update);
 
-
+router.delete('/deletequiz', authenticate.UserAdmin, Quiz.deleteQuiz);
 
 module.exports = router;
 

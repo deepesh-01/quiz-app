@@ -1,13 +1,14 @@
 // const quiz = require('../models/quiz');
 const mongoose = require('mongoose');
 const Quiz = require('../models/quiz');
+const Question = require('../models/question');
 
 // @route Post api/quiz/get
 // @desc Get all quiz
 // @access Public
 
 exports.getAll = async (req,res) => {
-    const  quizes = await Quiz.find({});
+    const  quizes = await Quiz.find({}).populate('createdBy');
     res.status(200).json({quizes});
 }
 
@@ -64,4 +65,22 @@ exports.update = async (req,res) => {
        console.log(error);
     }
 };
+
+exports.deleteQuiz = async (req,res) => {
+    try{
+        const quizId = req.body.id;
+        const quiz = await Quiz.findById(quizId);
+        if(!quiz)   return res.status(401).json({message:"This quiz doesn't exist"});
+        deletedQuiz = await Quiz.findByIdAndDelete(quizId);
+        console.log(deletedQuiz);
+        await deletedQuiz.questions.map((question) => {
+            deletedQuestion =  Question.findByIdAndDelete(question);
+            console.log(deletdQuestion);
+        });
+        return res.status(200).josn({deleteQuiz,message:"Quiz successfully deleted"});
+    }
+    catch(error){
+        return res.status(500).json({message:error.message});
+    }
+}
 

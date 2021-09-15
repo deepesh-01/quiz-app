@@ -1,20 +1,17 @@
 import * as api from '../api/api';
 
-export const login = (input) => async (dispatch) => {
+export const getAllQuiz = () => async (dispatch) => {
     try{
-        dispatch({type:"LOAD"});
-        console.log("input at login action : ", input);
-        const user = await api.login(input);
-        console.log("user from login action : ",user.data);
-        if(!user){
+        const quiz = await api.getAllQuiz();
+        console.log("Quiz from getAllQuiz action : ",quiz)
+        if(!quiz){
             dispatch({type:"ERROR",msg:"Server Error"});
-            console.log("Server Down");
             return false;
         }
         else{
-            dispatch({type:"LOGIN", user:user.data});
+            dispatch({type:"GET_ALL_QUIZ",quiz:quiz.data});
             return true;
-        } 
+        }
     }
     catch(err){
         if(!err.response){
@@ -31,18 +28,19 @@ export const login = (input) => async (dispatch) => {
     }
 }
 
-export const register = (input) => async (dispatch) => {
+export const getQuiz = (id) => async (dispatch) => {
     try{
-        dispatch({type:"LOAD"});
-        console.log("input at register : ",input);
-        const user = await api.register(input);
-        console.log("user from register action : ",user.data);
-        if(!user){
+        console.log("id in getQuiz action : ",id);
+        const quiz = await api.getQuiz(id);
+        console.log("Quiz from getQuiz action : ",quiz)
+        if(!quiz){
             dispatch({type:"ERROR",msg:"Server Error"});
             return false;
         }
-        dispatch({type:"REGISTER", user:user.data});
-        return true
+        else{
+            dispatch({type:"GET_QUIZ",quiz:quiz.data});
+            return true;
+        }
     }
     catch(err){
         if(!err.response){
@@ -50,8 +48,9 @@ export const register = (input) => async (dispatch) => {
             dispatch({type:"ERROR", msg:errmsg});
         }
         else{
+            // console.log("Error in login : ",err);
             const errmsg = err.response.data;
-            console.log("Error message : ",err.response);
+            console.log("Error message : ",errmsg);
             dispatch({type:"ERROR", msg:errmsg});
             return false;
         }
