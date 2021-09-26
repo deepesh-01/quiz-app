@@ -7,7 +7,6 @@ router.route('/').get(User.index);
 
 router.post("/verifyuser", User.jwtVerify)
 
-
 router.put('/update', User.update);
 
 module.exports = router;

@@ -50,15 +50,16 @@ exports.update = async (req,res) => {
     try {
         const update = req.body;
         // const id = req.params.id;
-        const quizId = req.body.id;
+        const _id = req.body.id;
         // console.log("update :",update);
         // console.log("id :",id);
         // console.log("quizid :",quizId);
         // if (userId.toString() !== id.toString()) return res.status(401).json({message: "Sorry, you don't have the permission to upd this data."});
 
-        const quiz = await Quiz.findByIdAndUpdate(quizId,{$set : update},{new:true});
-
-        return res.status(200).json({quiz,message:"Quiz details are updated"}); 
+        const updatedQuiz = await Quiz.findByIdAndUpdate(_id,{$set : update},{new:true});
+        const quiz = await Quiz.findById({_id}).populate('questions');
+        console.log("updatedQuiz is : ",updatedQuiz);
+        return res.status(200).json({quiz}); 
        }
        catch (error) {
        res.status(500).json({message: error.message});
