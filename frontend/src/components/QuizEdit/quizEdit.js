@@ -28,6 +28,7 @@ export const Quiz = (props) =>{
         }
     },[]);
 
+
     const [quizChanges,setQuizChange] = useState({
         id : quizId,
         name : '',
@@ -35,6 +36,7 @@ export const Quiz = (props) =>{
     })
 
     console.log(quiz);
+    console.log("quizChanges : ",quizChanges)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -56,6 +58,9 @@ export const Quiz = (props) =>{
                 <div>
                 <form className={classes.form} fullWidth noValidate onSubmit={handleSubmit}>
                     <Grid item className={classes.gridItem} sm={12} xs={12}>
+                    <Typography className={classes.title} gutterBottom>
+                                    Quiz Name : {quiz.quiz.name}
+                                </Typography>
                         <TextField
                         className={classes.text}
                         variant="outlined"
@@ -67,6 +72,9 @@ export const Quiz = (props) =>{
                         </TextField>
                     </Grid>
                     <Grid item className={classes.gridItem} sm={12} xs={12}>
+                    <Typography className={classes.title} gutterBottom>
+                                    Quiz Description : {quiz.quiz.description}
+                                </Typography>
                     <TextField
                         className={classes.text}
                         variant="outlined"
