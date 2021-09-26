@@ -34,7 +34,7 @@ export const getQuiz = (id) => async (dispatch) => {
     try{
         console.log("id in getQuiz action : ",id);
         const quiz = await api.getQuiz(id);
-        console.log("Quiz from getQuiz action : ",quiz)
+        console.log("Quiz from getQuiz action : ",quiz.data);
         if(!quiz){
             dispatch({type:"ERROR",msg:"Server Error"});
             return false;
