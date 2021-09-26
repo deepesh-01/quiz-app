@@ -5,7 +5,7 @@ import axios from 'axios';
 export const getAllQuiz = () => async (dispatch) => {
     try{
         const quiz = await api.getAllQuiz();
-        console.log("Quiz from getAllQuiz action : ",quiz)
+        console.log("Quiz from getAllQuiz action : ",quiz.data);
         if(!quiz){
             dispatch({type:"ERROR",msg:"Server Error"});
             return false;
