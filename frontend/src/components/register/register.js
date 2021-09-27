@@ -35,6 +35,7 @@ export const Register = () => {
     }
 
     const handleSubmit = async (e) => {
+        setDis(true);
         e.preventDefault();
         setSubmitted(true);
         setSubmitCp(true);

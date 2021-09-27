@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import {Alert} from '@material-ui/lab';
 
 import {TextField, Grid, Container, CircularProgress, Card, CardContent, RadioGroup,Radio,FormControlLabel, Button, Typography} from '@material-ui/core';
 
@@ -15,14 +16,22 @@ export const Quiz = (props) =>{
 
     const quizId = history.location.state ? history.location.state.quizid : null ;
     // console.log("quizId in quizEdit is : ",quizId);
+    const errMsg = useSelector((state)=>state.data.errMsg);
+    const error = useSelector((state)=>state.data.error);
+    const load = useSelector((state)=>state.data.load); 
+    const user = useSelector((state)=>state.data.user);
+    const quiz = useSelector((state)=>state.data.quiz);
 
-    const  user = useSelector((state)=>state.data.user);
-    const  quiz = useSelector((state)=>state.data.quiz);
+    const name = useRef();
+    const description = useRef();
+
+    const [empty,setEmpty] = useState(false);
 
     useEffect( async () =>{
         if(!user) history.push('/');
         const val = await dispatch(getQuiz(quizId));
         console.log("dispatch getQuiz val : ",val);
+        setEmpty(false);
         if(quiz){
         setQuizChange({...quizChanges,name:quiz.quiz.name,description:quiz.quiz.description});
         }
@@ -40,8 +49,10 @@ export const Quiz = (props) =>{
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(!quizChanges.name || !quizChanges.description) setEmpty(true);
+        else{ setEmpty(false);
         console.log("Quiz Changes : ",quizChanges);
-        dispatch(updateQuiz(quizChanges,user.token));
+        dispatch(updateQuiz(quizChanges,user.token));}
     }
 
     const handleChange = (e) => {
@@ -52,9 +63,11 @@ export const Quiz = (props) =>{
     // const quiz = useSelector((state) => state.data.quizes.quizes.filter((quiz)=>quizId));
     return(
         <div >
+            
             <Container component="main" className={classes.root} maxWidth="sm">
+                { error ? <p> {errMsg.msg} </p> : 
                 <Grid spacing={2} direction="column" alignItems="center" justify="center">
-                    {!quiz ? <CircularProgress/> : 
+                    {load || !quiz ? <CircularProgress/> : 
                 <div>
                 <form className={classes.form} fullWidth noValidate onSubmit={handleSubmit}>
                     <Grid item className={classes.gridItem} sm={12} xs={12}>
@@ -66,7 +79,8 @@ export const Quiz = (props) =>{
                         variant="outlined"
                         label="Quiz Name"
                         name="name"
-                        value={quizChanges.name}
+                        ref={name}
+                        value={quizChanges.name || quiz.quiz.name}
                         onChange={handleChange}
                         >
                         </TextField>
@@ -81,10 +95,12 @@ export const Quiz = (props) =>{
                         label="Quiz Description"
                         multiline="true"
                         name="description"
-                        value={quizChanges.description}
+                        ref={description}
+                        value={quizChanges.description || quiz.quiz.description}
                         onChange={handleChange}
                         />
                     </Grid>
+                    {empty ? <Alert severity="error"> {"Name or description cannot be empty."} </Alert> : null}
                     <Grid item className={classes.submit} sm={12} xs={12}>
                         <Button
                             type="submit"
@@ -123,8 +139,9 @@ export const Quiz = (props) =>{
                             )}
                         </div>
                     </div>
-                    }
+                    }    
                 </Grid>
+                }
             </Container>
         </div>
     )

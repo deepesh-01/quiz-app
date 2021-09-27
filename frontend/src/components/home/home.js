@@ -37,6 +37,7 @@ export const LogIn = () => {
     }
 
     const handleSubmit = async (e) => {
+        setDis(true);
         e.preventDefault();
         setSubmitted(true);
         setSubmitCp(true);
