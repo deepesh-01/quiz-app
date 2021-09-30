@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme)=>({
     root: {
         marginTop: theme.spacing(4),        
-        
       },
       form: {
         display : 'flex',
@@ -37,4 +36,13 @@ export default makeStyles((theme)=>({
         paddingLeft: "10px",
         fontSize: 14,
       },
+      button: {
+        width: "158px",
+        margin: "10px",
+      },
+      addButton: {
+        width: "150px",
+        margin: "10px",
+        marginLeft: "30px"
+      }
 }));

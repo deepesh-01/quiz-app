@@ -4,7 +4,9 @@ const authenticate = require('../middlewares/authenticate');
 
 const router = express.Router();
 
-router.get('/:quizId', Question.getQuestions );
+router.get('all/:quizId', Question.getQuestions );
+
+router.get('/:questionId', Question.getOne );
 
 router.post('/new', authenticate.UserAdmin, Question.postQuestion);
 

@@ -1,10 +1,14 @@
+const mongoose = require('mongoose');
+
 const Question = require('../models/question');
 const Quiz = require('../models/quiz');
 
-exports.getQuestions = async (req,res) => {
-    const questions = await Question.find({ quizId : req.params.quizId});
 
-    const quiz = await Quiz.find({ quizId : req.params.quizId });
+exports.getQuestions = async (req,res) => {
+    const questions = await Question.find({});
+    const _id = mongoose.Types.ObjectId(req.params.quizId);
+    const quiz = await Quiz.findById({_id});
+    // console.log("quiz is : ",quiz);
     if(!quiz.length){
         return res.status(401).json({message:"This quiz doesn't exist"}); 
     }
@@ -13,6 +17,16 @@ exports.getQuestions = async (req,res) => {
     }
     res.status(200).json({questions});
 };
+
+exports.getOne = async (req,res) => {
+    const questionId = req.params.questionId;
+    const _id = mongoose.Types.ObjectId(questionId);
+    // console.log("id is : ",_id);
+    const question = await Question.findById(_id);
+    // console.log("question is : ", question);
+    if(!question) return res.status(401).json({message:"This question doesn't exist"});
+    res.status(200).json({"question":question});
+}
 
 exports.postQuestion = async (req,res) => {
     try{

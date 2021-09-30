@@ -1,7 +1,5 @@
 import * as api from '../api/api';
 
-import axios from 'axios';
-
 export const getAllQuiz = () => async (dispatch) => {
     try{
         const quiz = await api.getAllQuiz();

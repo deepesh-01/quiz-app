@@ -28,7 +28,7 @@ export const Quiz = (props) =>{
     const [empty,setEmpty] = useState(false);
 
     useEffect( async () =>{
-        if(!user) history.push('/');
+        if(!user || !quizId) history.push('/');
         const val = await dispatch(getQuiz(quizId));
         console.log("dispatch getQuiz val : ",val);
         setEmpty(false);
@@ -59,8 +59,15 @@ export const Quiz = (props) =>{
         const value = e.target.value;
         setQuizChange({...quizChanges,[e.target.name]:value});
     }
+
+    const editQuestion = (id) => {
+        console.log("id : ",id);
+        history.push({
+            pathname:'/editquestion',
+            state: {questionId : id}
+        });
+    }
  
-    // const quiz = useSelector((state) => state.data.quizes.quizes.filter((quiz)=>quizId));
     return(
         <div >
             
@@ -100,7 +107,7 @@ export const Quiz = (props) =>{
                         onChange={handleChange}
                         />
                     </Grid>
-                    {empty ? <Alert severity="error"> {"Name or description cannot be empty."} </Alert> : null}
+                    {empty ? <Alert style={{margin : "0 10px 10px 10px"}} severity="error"> {"Name or description cannot be empty."} </Alert> : null}
                     <Grid item className={classes.submit} sm={12} xs={12}>
                         <Button
                             type="submit"
@@ -134,10 +141,29 @@ export const Quiz = (props) =>{
                                 <Typography className={classes.title} gutterBottom>
                                     Correct Answer : {question.correctOption}
                                 </Typography>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    onClick={()=>editQuestion(question._id)}
+                                    >Edit Question</Button>
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    >Delete Question</Button>
                                 </Card>
                                 </Grid>
                             )}
                         </div>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            className={classes.addButton}
+                        >Add Questions</Button>
                     </div>
                     }    
                 </Grid>
