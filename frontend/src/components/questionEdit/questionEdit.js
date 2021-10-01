@@ -4,7 +4,8 @@ import {useHistory} from 'react-router-dom';
 
 import useStyles from './questionEditStyles';
 
-import {Grid,TextField,Button,CircularProgress,Container, Dialog, DialogTitle, DialogActions} from '@material-ui/core';
+import {Grid,TextField,Typography,Button,CircularProgress,Container, Dialog, DialogTitle, DialogActions,Select,InputLabel,MenuItem, Radio,RadioGroup,FormControlLabel} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 
 import {getQues, updateQuestion} from '../../actions/question';
 
@@ -21,38 +22,24 @@ export const  QuestionEdit = () => {
     const error = useSelector((state)=>state.data.error);
     const load = useSelector((state)=>state.data.load); 
     const user = useSelector((state)=>state.data.user);
-    const token = useSelector((state)=>state.data.user.token);
     const oldQ = useSelector((state)=>state.data.question);
     
     const [open,setOpen] = useState(false);
     const [success,setSuccess] = useState(false);
 
+    let val = false;
+
     useEffect( async () =>{
         if(!user) history.push('/');
-        const val = await dispatch(getQues(questionId));
+        val = await dispatch(getQues(questionId));
         console.log("val is : ",val);
-        if(oldQ){
-            setQues({
-                ...ques,
-                question : oldQ.question.question,
-                option1 : oldQ.question.option1,
-                option2 : oldQ.question.option2,
-                option3 : oldQ.question.option3,
-                option4 : oldQ.question.option4,
-                correctOption : oldQ.question.correctOption,
-            });
-    }
+        
     },[]);
 
-    const [ques,setQues] = useState({
-        id:questionId,
-        question:"",
-        option1:"",
-        option2:"",
-        option3:"",
-        option4:"",
-        correctOption:"",
-    });
+    const [field,setField] = useState("");
+    const [value,setValue] = useState("");
+    const [empty,setEmpty] = useState(false);
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -62,37 +49,32 @@ export const  QuestionEdit = () => {
         setOpen(false);
     }
 
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setQues({...ques,[e.target.name]:value});
-    };
-    const handleSubmit = (e) => {
-        setSuccess(false);
+    const handleField = (e) => {
+        setField(e.target.value);
+    }
+
+    const handleValue = (e) => {
+        setValue(e.target.value);
+    }
+
+    const handleSubmit = async (e) => {
+        setEmpty(false)
         e.preventDefault();
-        if(!ques.question){
-            setQues({...ques,question:oldQ.question.question})
-        }
-        if(!ques.option1){
-            setQues({...ques,option1:oldQ.question.option1})
-        }
-        if(!ques.option2){
-            setQues({...ques,option2:oldQ.question.option2})
-        }
-        if(!ques.option3){
-            setQues({...ques,option3:oldQ.question.option3})
-        }
-        if(!ques.option4){
-            setQues({...ques,option4:oldQ.question.option4})
-        }
-        if(!ques.correctOption){
-            setQues({...ques,correctOption:oldQ.question.correctOption})
-        }
+        const data = {id : questionId};
+        data[field] = value;
+        console.log(data);
+        if(value){
         handleOpen();
-        console.log(ques);
-        console.log(token);
-        const val = dispatch(updateQuestion(ques,token));
+        const val = await dispatch(updateQuestion(data,user.token));
+        console.log("val :",val);
         setSuccess(val);
+        }
+        else{
+            setEmpty(true)
+        }
     };
+
+    if(error) console.log(errMsg);
     return (
         <div>
             <Container component="main" className={classes.root} maxWidth="sm">
@@ -109,65 +91,61 @@ export const  QuestionEdit = () => {
                         <Button onClick={handleClose}>Done</Button>
                         </DialogActions>
                     </Dialog>
-                {error ? <p> {errMsg.msg} </p> : 
+                {error ? <p> {errMsg.message} </p> : 
                 <Grid spacing={2} direction="column" alignItems="center" justify="center">
                     {load || !oldQ ? <CircularProgress/> : 
                     <div>
                     <Grid item className={classes.gridItem} sm={12} xs={12}>
-                    <form className={classes.form} fullWidth noValidate onSubmit={handleSubmit}>
-                        <TextField
-                        className={classes.text}
-                        variant="outlined"
-                        label="Question"
-                        name="question"
-                        value={ques.question || oldQ.question.question}
-                        onChange={handleChange}
-                        ></TextField>
-                        <TextField
-                        className={classes.text}
-                        variant="outlined"
-                        label="Option 1"
-                        name="option1"
-                        value={ques.option1 || oldQ.question.option1}
-                        onChange={handleChange}
-                        ></TextField>
-                        <TextField
-                        className={classes.text}
-                        variant="outlined"
-                        label="Option2"
-                        name="option2"
-                        value={ques.option2 || oldQ.question.option2}
-                        onChange={handleChange}
-                        ></TextField>
-                        <TextField
-                        className={classes.text}
-                        variant="outlined"
-                        label="Option 3"
-                        name="option3"
-                        value={ques.option3 || oldQ.question.option3}
-                        onChange={handleChange}
-                        ></TextField>
-                        <TextField
-                        className={classes.text}
-                        variant="outlined"
-                        label="Option 4"
-                        name="option4"
-                        value={ques.option4 || oldQ.question.option4}
-                        onChange={handleChange}
-                        ></TextField>
-                        <TextField
-                        className={classes.text}
-                        variant="outlined"
-                        label="Correct Option"
-                        name="correctOption"
-                        value={ques.correctOption || oldQ.question.correctOption}
-                        onChange={handleChange}
-                        ></TextField>
+                    <form className={classes.form} fullWidth noValidate>
+                        <Typography style={{marginLeft:"10px"}} className={classes.title} gutterBottom>
+                                {oldQ.question.question}
+                            </Typography>
+                            <RadioGroup 
+                                style={{marginLeft:"10px"}}
+                                className={classes.radioGroup}
+                                aria-label="options"
+                                defaultValue={oldQ.question.correctOption}
+                                name="radio-buttons-group"
+                            >
+                                <FormControlLabel value="option1" control={<Radio  />} label={oldQ.question.option1} />
+                                <FormControlLabel value="option2" control={<Radio />} label={oldQ.question.option2} />
+                                <FormControlLabel value="option3" control={<Radio />} label={oldQ.question.option3} />
+                                <FormControlLabel value="option4" control={<Radio />} label={oldQ.question.option4} />
+                            </RadioGroup>
+                            <Typography style={{marginLeft:"10px"}} className={classes.title} gutterBottom>
+                                Correct Answer : {oldQ.question.correctOption}
+                            </Typography>
+                        <div>
+                        <InputLabel style={{marginLeft:"10px"}}>Update Field</InputLabel>
+                            <Select
+                                style={{marginLeft:"10px",minWidth:"80px"}}
+                                label="Age"
+                                value={field || "field"}
+                                onChange={handleField}
+                                >
+                            <MenuItem value="question">Question</MenuItem>
+                            <MenuItem value="option1">Option 1</MenuItem>
+                            <MenuItem value="option2">Option 2</MenuItem>
+                            <MenuItem value="option3">Option 3</MenuItem>
+                            <MenuItem value="option4">Option 4</MenuItem>
+                            <MenuItem value="correctOption">Correct Option</MenuItem>
+                            </Select>
+
+                            <TextField
+                                className={classes.text}
+                                variant="outlined"
+                                label="Enter the value"
+                                name="value"
+                                onChange={handleValue}
+                                multiline
+                            ></TextField>
+                            {empty ? <Alert style={{marginLeft : "10px",marginBottom:"10px"}} severity="error"> {"Enter The value."} </Alert> : null}
+                        </div>
                         <Button
                             className={classes.button}
-                            type="submit"
                             variant="contained"
                             color="primary"
+                            onClick={handleSubmit}
                         >
                         Update Question
                         </Button>

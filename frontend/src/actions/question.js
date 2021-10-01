@@ -31,8 +31,11 @@ export const getQues = (id) => async (dispatch) => {
 
 export const updateQuestion = (changes,token) => async (dispatch) => {
     try{
+        dispatch({type:"LOAD"});
         const data = {changes, token};
+        console.log(changes);
         const updatedQuestion = await api.updateQuestion(data);
+        console.log(updatedQuestion.data.question);
         if(!updatedQuestion.data){
             dispatch({type:"ERROR",msg:"Server Error"});
             return false;

@@ -9,6 +9,7 @@ export default makeStyles((theme)=>({
         },
         text: {
             margin : "10px",
+            paddingRight : "20px",
             width: "100%",
         },
         gridItem: {
@@ -17,6 +18,11 @@ export default makeStyles((theme)=>({
         button:{
             marginLeft : "60px",
             marginRight : "30px",
+        },
+        title: {
+            marginTop: "10px",
+            marginBottom : "10px", 
+            fontSize: 18,
         }
 
 }));
