@@ -13,5 +13,10 @@ export default makeStyles((theme)=>({
         },
         gridItem: {
             marginRight : "20px",
-          },
+        },
+        button:{
+            marginLeft : "60px",
+            marginRight : "30px",
+        }
+
 }));
