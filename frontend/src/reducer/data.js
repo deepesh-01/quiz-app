@@ -11,7 +11,7 @@ export default (initialState = {user:null,quizes:null,questions:[],load:false,er
         case "GET_QUIZ":
             return {...initialState,quiz:action.quiz,load:false,error:false}
         case "UPDATE_QUIZ":
-            return {...initialState,quiz:action.updatedQuiz,load:false,error:false}
+            return {...initialState,quiz:action.quiz,load:false,error:false}
         case "GET_QUESTION":
             return {...initialState,question:action.question,load:false,error:false}
         case "UPDATE_QUESTION":

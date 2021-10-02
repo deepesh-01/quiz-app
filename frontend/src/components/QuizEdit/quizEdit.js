@@ -157,6 +157,7 @@ export const Quiz = (props) =>{
                             variant="contained"
                             color="secondary"
                             className={classes.addButton}
+                            onClick={()=>history.push('/newquestion')}
                         >Add Questions</Button>
                     </div>
                     }    

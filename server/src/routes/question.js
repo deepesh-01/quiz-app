@@ -4,7 +4,7 @@ const authenticate = require('../middlewares/authenticate');
 
 const router = express.Router();
 
-router.get('all/:quizId', Question.getQuestions );
+router.get('/all/:quizId', Question.getQuestions );
 
 router.get('/:questionId', Question.getOne );
 

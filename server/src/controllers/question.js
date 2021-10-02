@@ -5,27 +5,40 @@ const Quiz = require('../models/quiz');
 
 
 exports.getQuestions = async (req,res) => {
-    const questions = await Question.find({});
-    const _id = mongoose.Types.ObjectId(req.params.quizId);
-    const quiz = await Quiz.findById({_id});
-    // console.log("quiz is : ",quiz);
-    if(!quiz.length){
-        return res.status(401).json({message:"This quiz doesn't exist"}); 
+    // const questions = await Question.find({});
+    try{
+        const _id = mongoose.Types.ObjectId(req.params.quizId);
+        console.log("quiz id is : ",_id);
+        const quiz = await Quiz.findById({_id}).populate('questions');
+        // console.log("quiz is : ",quiz);
+        if(!quiz){
+            return res.status(401).json({message:"This quiz doesn't exist"}); 
+        }
+        else if(!quiz.questions){
+            return res.status(401).json({message:"Sorry - This quiz is empty"});
+        }
+        return res.status(200).json({question : quiz.questions});
     }
-    else if(!questions.length){
-        return res.status(401).json({message:"Sorry - This quiz is empty"});
+    catch(error){
+        res.status(500).json({message: error.message});
+        console.log(error);
     }
-    res.status(200).json({questions});
 };
 
 exports.getOne = async (req,res) => {
-    const questionId = req.params.questionId;
-    const _id = mongoose.Types.ObjectId(questionId);
-    // console.log("id is : ",_id);
-    const question = await Question.findById(_id);
-    // console.log("question is : ", question);
-    if(!question) return res.status(401).json({message:"This question doesn't exist"});
-    res.status(200).json({"question":question});
+    try{
+        const questionId = req.params.questionId;
+        const _id = mongoose.Types.ObjectId(questionId);
+        // console.log("id is : ",_id);
+        const question = await Question.findById(_id);
+        // console.log("question is : ", question);
+        if(!question) return res.status(401).json({message:"This question doesn't exist"});
+        return res.status(200).json({"question":question});
+        }
+    catch(error){
+        res.status(500).json({message: error.message});
+        console.log(error);
+    }
 }
 
 exports.postQuestion = async (req,res) => {
@@ -37,9 +50,10 @@ exports.postQuestion = async (req,res) => {
         else{ 
         const newQue = await newQuestion.save();
         console.log("newQuestion : ", newQue);
-        const updateQuiz = await Quiz.findByIdAndUpdate(quizId,{$inc : { noOfQue:1 }, $push : {questions:newQue._id} },{new:true});
-        console.log("updateQuiz: ", updateQuiz);
-        return res.status(200).json({question : newQue});
+        const updatedQuiz = await Quiz.findByIdAndUpdate(quizId,{$inc : { noOfQue:1 }, $push : {questions:newQue._id} },{new:true}).populate('questions');
+        console.log("updateQuiz: ", updatedQuiz);
+        // return res.status(200).json({question : newQue});
+        return res.status(200).json({quiz : updatedQuiz});
         }
     }
     catch(error){

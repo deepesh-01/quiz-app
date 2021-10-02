@@ -59,3 +59,34 @@ export const updateQuestion = (changes,token) => async (dispatch) => {
         }
     }
 }
+
+export const newQuestion = (changes,token) => async (dispatch) => {
+    try{
+        dispatch({type:"LOAD"});
+        const data = {changes, token};
+        // console.log(changes);
+        const updatedQuiz = await api.newQuestion(data);
+        console.log("updated Quiz is : ",updatedQuiz.data);
+        if(!updatedQuiz.data){
+            dispatch({type:"ERROR",msg:"Server Error"});
+            return false;
+        }
+        else{
+            dispatch({type:"UPDATE_QUIZ",quiz:updatedQuiz.data});
+            return true;
+        }
+    }
+    catch(err){
+        if(!err.response){
+            const errmsg = { "msg" : "Server is not reachable!" };
+            dispatch({type:"ERROR", msg:errmsg});
+        }
+        else{
+            // console.log("Error in login : ",err);
+            const errmsg = err.response.data;
+            console.log("Error message : ",errmsg);
+            dispatch({type:"ERROR", msg:errmsg});
+            return false;
+        }
+    }
+}

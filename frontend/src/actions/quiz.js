@@ -63,13 +63,13 @@ export const updateQuiz = (changes,token) => async (dispatch) => {
         console.log("token in updateQuiz Action is : ",token);
         const data = {changes, token};
         const updatedQuiz = await api.updateQuiz(data);
-        console.log("Updated Quiz from updateQuiz action : ",updatedQuiz.data);
+        console.log("Updated Quiz from updateQuiz action : ",updatedQuiz);
         if(!updatedQuiz.data){
             dispatch({type:"ERROR",msg:"Server Error"});
             return false;
         }
         else{
-            dispatch({type:"UPDATE_QUIZ",updatedQuiz:updatedQuiz.data});
+            dispatch({type:"UPDATE_QUIZ",quiz:updatedQuiz.data});
             return true;
         }
     }
