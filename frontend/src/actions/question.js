@@ -90,3 +90,35 @@ export const newQuestion = (changes,token) => async (dispatch) => {
         }
     }
 }
+
+export const deleteQuestion = (id,token) => async (dispatch) => {
+    try{
+        dispatch({type:"LOAD"});
+        const data = {id, token};
+        console.log(data);
+        const updatedQuiz = await api.deleteQuestion(data);
+        console.log("updated Quiz is : ",updatedQuiz.data.quiz);
+        if(!updatedQuiz.data){
+            dispatch({type:"ERROR",msg:"Server Error"});
+            return false;
+        }
+        else{
+            dispatch({type:"UPDATE_QUIZ",quiz:updatedQuiz.data});
+            return true;
+        }
+    }
+    catch(err){
+        if(!err.response){
+            console.log("err is : ",err);
+            const errmsg = { "msg" : "Server is not reachable!" };
+            dispatch({type:"ERROR", msg:errmsg});
+        }
+        else{
+            // console.log("Error in login : ",err);
+            const errmsg = err.response.data;
+            console.log("Error message : ",errmsg);
+            dispatch({type:"ERROR", msg:errmsg});
+            return false;
+        }
+    }
+}

@@ -81,17 +81,17 @@ exports.updateQuestion = async (req,res) => {
 };
 
 exports.deleteQuestion = async (req,res) => {
+    console.log("reqbody is : ",req.body);
     try{
      const quesId = req.body.id;
- 
      const question = await Question.findByIdAndDelete(quesId);
      const quizId = question.quizId;
      const quiz = Quiz.findById(quizId);
      if(!quiz) res.status(401).json({message:"This quiz doesn't exist"});
-     const updateQuiz = await Quiz.findByIdAndUpdate(quizId,{$inc : { noOfQue:-1 }, $pull : {questions:question._id} },{new:true});
+     const updateQuiz = await Quiz.findByIdAndUpdate(quizId,{$inc : { noOfQue:-1 }, $pull : {questions:question._id} },{new:true}).populate('questions');
      console.log("updated quiz : ",updateQuiz);
      console.log("deleted question : ",question);
-     return res.status(200).json({question,message:"Successfully deleted the question"});
+     return res.status(200).json({quiz: updateQuiz,message:"Successfully deleted the question"});
     }
     catch(error){
      res.status(500).json({message: error.message});

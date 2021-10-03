@@ -6,6 +6,7 @@ import {Alert} from '@material-ui/lab';
 import {TextField, Grid, Container, CircularProgress, Card,InputLabel,Select,MenuItem, RadioGroup,Radio,FormControlLabel, Button, Typography} from '@material-ui/core';
 
 import {getQuiz, updateQuiz} from '../../actions/quiz';
+import {deleteQuestion} from '../../actions/question';
 
 import useStyles from './quizEditStyles';
 
@@ -48,9 +49,10 @@ export const Quiz = (props) =>{
             setEmpty(true);
             console.log(data);
         }
-        else{ setEmpty(false);
-        console.log("data : ",data);
-        dispatch(updateQuiz(data,user.token));
+        else{ 
+            setEmpty(false);
+            console.log("data : ",data);
+            dispatch(updateQuiz(data,user.token));
         }
     }
 
@@ -62,12 +64,19 @@ export const Quiz = (props) =>{
             state: {questionId : id}
         });
     }
+
+    const handleDelete = (id) => {
+        const token = user.token;
+        console.log("id is : ",id);
+        console.log("token is : ",token);
+        const val = dispatch(deleteQuestion(id,token));
+    }
  
     return(
         <div >
             
             <Container component="main" className={classes.root} maxWidth="sm">
-                { error ? <p> {errMsg.msg} </p> : 
+                { error ? <p> Error : {errMsg.msg || errMsg.message} </p> : 
                 <Grid spacing={2} direction="column" alignItems="center" justify="center">
                     {load || !quiz ? <CircularProgress/> : 
                 <div>
@@ -147,6 +156,7 @@ export const Quiz = (props) =>{
                                     variant="contained"
                                     color="primary"
                                     className={classes.button}
+                                    onClick={()=>handleDelete(question._id)}
                                     >Delete Question</Button>
                                 </Card>
                                 </Grid>
