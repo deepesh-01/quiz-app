@@ -23,4 +23,11 @@ export default makeStyles((theme)=>({
         marginBottom: 6,
         marginTop: 6,
       },
+      addQuiz:{
+        margin: "10px 10px 10px 0px",
+
+      },
+      addQ:{
+        textAlignLast:"center"
+      }
 }));

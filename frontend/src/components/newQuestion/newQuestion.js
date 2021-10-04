@@ -25,8 +25,6 @@ export const NewQuestion = () => {
     useEffect( async () =>{
         if(!user || !quiz) history.push('/');
         else{
-        // console.log("Quiz Id : ",quiz.quiz._id);
-        // console.log("User Id : ",user.user._id);
         setInputs({...inputs,quizId:quiz?.quiz?._id,createdBy:user?.user?._id});}
     },[]);
 
@@ -57,10 +55,6 @@ export const NewQuestion = () => {
         console.log("Inputs are : ",inputs);
         const token = user.token;
         const val = await dispatch(newQuestion(inputs,token));
-        // history.push({
-        //     path : '/editquiz', 
-        //     state: {quizid : quiz.quiz._id}
-        // });
         history.goBack();
         console.log("val of newQuestion : ",val);
         }

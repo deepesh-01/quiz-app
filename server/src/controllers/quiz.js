@@ -31,13 +31,20 @@ exports.getOne = async (req,res) => {
 // @desc Post new quiz
 // @access Public
 
-exports.newQuiz = (req,res) =>  {
-    const newQuiz = new Quiz(req.body);
-    console.log("newQuiz : ", newQuiz);
-    // console.log(req.body);
-    newQuiz.save()
-        .then(quiz => res.status(200).json({quiz : quiz}))
-        .catch(err => res.status(500).json({message : err.message}));
+exports.newQuiz = async (req,res) =>  {
+    try{    
+        console.log(req.body);
+        const newQuiz = new Quiz(req.body);
+        console.log("newQuiz : ", newQuiz);
+        // console.log(req.body);
+        const nQuiz = await newQuiz.save();
+        return res.status(200).json({quiz: nQuiz});
+    }
+    catch (error) {
+        return res.status(500).json({message: error.message});
+        console.log(error);
+    }
+
 }
 
 // @route Post api/quiz/put

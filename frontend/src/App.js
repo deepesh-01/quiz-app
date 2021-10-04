@@ -12,6 +12,7 @@ import {Register} from './components/register/register.js';
 import {Quiz} from './components/QuizEdit/quizEdit.js';
 import {QuestionEdit} from './components/questionEdit/questionEdit';
 import {NewQuestion} from './components/newQuestion/newQuestion';
+import {NewQuiz} from './components/addQuiz/addQuiz';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/register"> <Register/> </Route>
             <Route path="/editquestion"> <QuestionEdit/> </Route>
             <Route path="/newquestion"> <NewQuestion/> </Route>
+            <Route path="/addquiz"> <NewQuiz/> </Route>
             <Route path="/"> <LogIn/> </Route>
           </Switch>
         {/* <CircularProgress></CircularProgress> */}
