@@ -7,6 +7,7 @@ const getAllQuizUrl = `http://localhost:8000/api/quiz`;
 const updateQuizUrl = `http://localhost:8000/api/quiz/updatequiz`;
 // const getQuizUrl = `http://localhost:8000/api/quiz/${id}`;
 const newQuizUrl = `http://localhost:8000/api/quiz/newquiz`;
+const deleteQuizUrl = `http://localhost:8000/api/quiz/deletequiz`;
 
 // const getQuestionUrl = `http://localhost:8000/api/question/${questionId}`;
 const updateQuestionUrl = `http://localhost:8000/api/question/update`
@@ -23,9 +24,11 @@ export const getAllQuiz = () => axios.get(getAllQuizUrl);
 
 export const getQuiz = (id) => axios.get(`http://localhost:8000/api/quiz/${id}`);
 
+export const newQuiz = (data) => axios.post(newQuizUrl,data.nQuiz,{headers:{'authorization' : `Bearer ${data.token}`}});
+
 export const updateQuiz = (data) => axios.put(updateQuizUrl,data.changes,{ headers:{'authorization' : `Bearer ${data.token}` }});
 
-export const newQuiz = (data) => axios.post(newQuizUrl,data.nQuiz,{headers:{'authorization' : `Bearer ${data.token}`}});
+export const deleteQuize = (data) => axios.delete(deleteQuizUrl,{data : {id : data.id},headers:{'authorization' : `Bearer ${data.token}`}});
 
 // Question API endpoints
 export const getQuestion = (id) => axios.get(`http://localhost:8000/api/question/${id}`);

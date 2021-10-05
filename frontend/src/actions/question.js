@@ -2,6 +2,7 @@ import * as api from '../api/api';
 
 export const getQues = (id) => async (dispatch) => {
     try{
+        dispatch({type:"LOAD"});
         const quesId = id;
         const question = await api.getQuestion(quesId);
         console.log("question is : ", question.data);

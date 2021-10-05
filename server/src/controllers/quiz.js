@@ -85,7 +85,8 @@ exports.deleteQuiz = async (req,res) => {
             deletedQuestion =  Question.findByIdAndDelete(question);
             console.log(deletdQuestion);
         });
-        return res.status(200).josn({deleteQuiz,message:"Quiz successfully deleted"});
+        const  quizes = await Quiz.find({}).populate('createdBy');
+        return res.status(200).json({quizes: quizes,message:"Quiz successfully deleted"});
     }
     catch(error){
         return res.status(500).json({message:error.message});
