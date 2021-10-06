@@ -71,6 +71,7 @@ export const Quiz = (props) =>{
         console.log("token is : ",token);
         const val = dispatch(deleteQuestion(id,token));
     }
+
  
     return(
         <div >

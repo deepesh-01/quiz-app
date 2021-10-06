@@ -13,6 +13,7 @@ import {Quiz} from './components/QuizEdit/quizEdit.js';
 import {QuestionEdit} from './components/questionEdit/questionEdit';
 import {NewQuestion} from './components/newQuestion/newQuestion';
 import {NewQuiz} from './components/addQuiz/addQuiz';
+import {StartQuiz} from './components/startQuiz/startQuiz';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/editquestion"> <QuestionEdit/> </Route>
             <Route path="/newquestion"> <NewQuestion/> </Route>
             <Route path="/addquiz"> <NewQuiz/> </Route>
+            <Route path="/startquiz"> <StartQuiz/> </Route>
             <Route path="/"> <LogIn/> </Route>
           </Switch>
         {/* <CircularProgress></CircularProgress> */}

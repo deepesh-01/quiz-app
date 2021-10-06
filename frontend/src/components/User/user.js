@@ -18,6 +18,7 @@ export const User = () => {
     const user = useSelector((state) => state.data.user);
     const load = useSelector((state) => state.data.load);
     const error = useSelector((state) => state.data.error);
+    const errMsg = useSelector((state)=>state.data.errMsg);
 
     const [deleteq, setDeleteq] = useState(false);
     
@@ -26,10 +27,13 @@ export const User = () => {
     useEffect(async () => {
         if (!user) history.push('/');
         const val = await dispatch(getAllQuiz());
-        console.log("val in useEffect : ", val);
-        console.log("quizes after useEffect : ", quizes);
+        // console.log("val in useEffect : ", val);
+        // console.log("quizes after useEffect : ", quizes);
+        console.log("User useEffect rendered : ", run);
+        setRun(run=>run+1);
     }, []);
 
+    const [run,setRun] = useState(0);
 
     console.log("error : ", error, " load : ", load);
 
@@ -39,6 +43,11 @@ export const User = () => {
             pathname: '/editquiz',
             state: { quizid: id }
         });
+    }
+
+    const startQuiz = (id) => {
+        console.log("start quiz called");
+        history.push({pathname: '/startquiz', state: {quizId : id}});
     }
 
     const [quizId,setQuizId] = useState('');
@@ -75,6 +84,8 @@ export const User = () => {
 
     return (
         <div>
+            { error ? errMsg.message || errMsg.msg : 
+            <div>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -112,7 +123,7 @@ export const User = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button variant="contained" color="primary" size="small" disabled={quiz.noOfQue > 9 ? false : true}>Start Quiz</Button>
+                                    <Button variant="contained" color="primary" size="small" disabled={quiz.noOfQue > 9 ? false : true} onClick={() => startQuiz(quiz._id)}>Start Quiz</Button>
                                     <Button variant="contained" color="primary" size="small" disabled={!user.user.admin} onClick={() => editQuiz(quiz._id)}>Edit Quiz</Button>
                                     <Button variant="contained" color="primary" size="small" disabled={!user.user.admin} onClick={() => handleClickOpen(quiz._id)}>Delete Quiz</Button>
                                 </CardActions>
@@ -126,6 +137,8 @@ export const User = () => {
                     <Button className={classes.addQuiz} variant="contained" color="primary" size="small" disabled={!user.user.admin} onClick={addQuiz}>Add New Quiz</Button>
                 </div>
             }
+            </div>
+        }
         </div>
     );
 }
