@@ -21,11 +21,20 @@ export const StartQuiz = () => {
 
     const [answers,setAns] = useState([]);
 
-    const handleAns = (e) => {
-        const questionno = e.target.name;
+    const handleAns = async (e) => {
+        const questionno = (e.target.name);
         const ans = e.target.value;
-        console.log(questionno,ans);
-        setAns({...answers,ans});
+        var data = answers;
+        const ind = data.find((ans) => ans.id === questionno);
+        if(ind !== undefined ){
+            const id = parseInt(ind.id);
+            data[id-1].answer = ans; 
+            return setAns(data);
+        }
+        return setAns([ ...answers,{
+            id : questionno,
+            answer : ans,
+        }]);
     }
 
     const handleSubmit = () => {
