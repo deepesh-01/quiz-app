@@ -1,7 +1,4 @@
 import './App.css';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {CircularProgress} from '@material-ui/core';
 
 import {BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
 

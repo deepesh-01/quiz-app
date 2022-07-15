@@ -16,9 +16,9 @@ exports.getOne = async (req,res) => {
     try{
         const quizId  = req.params.quizId;
         const _id = mongoose.Types.ObjectId(quizId);
-        console.log("quizId : ", quizId);
+        // console.log("quizId : ", quizId);
         const quiz = await Quiz.findById({_id}).populate('questions');
-        console.log('quiz : ',quiz);
+        // console.log('quiz : ',quiz);
         return res.status(200).json({quiz : quiz});
     }
     catch (error) {
@@ -35,7 +35,7 @@ exports.newQuiz = async (req,res) =>  {
     try{    
         console.log(req.body);
         const newQuiz = new Quiz(req.body);
-        console.log("newQuiz : ", newQuiz);
+        // console.log("newQuiz : ", newQuiz);
         // console.log(req.body);
         const nQuiz = await newQuiz.save();
         return res.status(200).json({quiz: nQuiz});
@@ -56,16 +56,9 @@ exports.update = async (req,res) => {
     // console.log("req.body : ",req.body.object);
     try {
         const update = req.body;
-        // const id = req.params.id;
         const _id = req.body.id;
-        // console.log("update :",update);
-        // console.log("id :",id);
-        // console.log("quizid :",quizId);
-        // if (userId.toString() !== id.toString()) return res.status(401).json({message: "Sorry, you don't have the permission to upd this data."});
-
         const updatedQuiz = await Quiz.findByIdAndUpdate(_id,{$set : update},{new:true});
         const quiz = await Quiz.findById({_id}).populate('questions');
-        console.log("updatedQuiz is : ",updatedQuiz);
         return res.status(200).json({quiz}); 
        }
        catch (error) {
@@ -80,10 +73,10 @@ exports.deleteQuiz = async (req,res) => {
         const quiz = await Quiz.findById(quizId);
         if(!quiz)   return res.status(401).json({message:"This quiz doesn't exist"});
         deletedQuiz = await Quiz.findByIdAndDelete(quizId);
-        console.log(deletedQuiz);
+        // console.log(deletedQuiz);
         await deletedQuiz.questions.map((question) => {
             deletedQuestion =  Question.findByIdAndDelete(question);
-            console.log(deletdQuestion);
+            // console.log(deletdQuestion);
         });
         const  quizes = await Quiz.find({}).populate('createdBy');
         return res.status(200).json({quizes: quizes,message:"Quiz successfully deleted"});
@@ -92,4 +85,5 @@ exports.deleteQuiz = async (req,res) => {
         return res.status(500).json({message:error.message});
     }
 }
+
 

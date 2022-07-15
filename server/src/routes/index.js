@@ -3,6 +3,7 @@ const auth = require('./auth');
 const user = require('./user');
 const quiz = require('./quiz');
 const question = require('./question');
+const score = require('./score');
 const authenticate = require('../middlewares/authenticate');
 
 module.exports = app => {
@@ -13,4 +14,5 @@ module.exports = app => {
     app.use('/api/user', authenticate.User, user);
     app.use('/api/quiz', quiz);
     app.use('/api/question', question);
+    app.use('/api/score', score);
 };

@@ -6,7 +6,7 @@ import {TextField, Grid, Container, CircularProgress, Card,InputLabel,Select,Men
 
 import useStyles from './startQuizStyles';
 
-import {getQuiz} from '../../actions/quiz';
+import {getQuiz,submitQuiz} from '../../actions/quiz';
 
 export const StartQuiz = () => {
 
@@ -25,10 +25,15 @@ export const StartQuiz = () => {
         const questionno = (e.target.name);
         const ans = e.target.value;
         var data = answers;
-        const ind = data.find((ans) => ans.id === questionno);
-        if(ind !== undefined ){
-            const id = parseInt(ind.id);
-            data[id-1].answer = ans; 
+        // const ind = data.find((ans) => ans.id === questionno);
+        const index = data.findIndex((ans) => ans.id === questionno);
+        console.log(index);
+        if(index !== -1 ){
+            console.log("in if index is -> ",index);
+            console.log("in if data is -> ",data);
+            // const id = parseInt(ind.id);
+
+            data[index].answer = ans; 
             return setAns(data);
         }
         return setAns([ ...answers,{
@@ -38,8 +43,10 @@ export const StartQuiz = () => {
     }
 
     const handleSubmit = () => {
-        console.log("Handle Submit called");
-        console.log("answers are : ",answers);
+        console.log("user : ",user.token);
+        console.log("quizId : ",quizId);
+        console.log("answer : ",answers);
+        dispatch(submitQuiz(quizId,user.token,answers));
     }
 
     const quizId = history.location.state ? history.location.state.quizId : null ;

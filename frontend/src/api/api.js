@@ -9,6 +9,9 @@ const updateQuizUrl = `http://localhost:8000/api/quiz/updatequiz`;
 const newQuizUrl = `http://localhost:8000/api/quiz/newquiz`;
 const deleteQuizUrl = `http://localhost:8000/api/quiz/deletequiz`;
 
+// const submitQuizUrl = `http://localhost:8000/api/quiz/submitquiz`;
+const submitQuizUrl = `http://localhost:8000/api/score/submitquiz` ;
+
 // const getQuestionUrl = `http://localhost:8000/api/question/${questionId}`;
 const updateQuestionUrl = `http://localhost:8000/api/question/update`
 const newQuestionUrl = `http://localhost:8000/api/question/new`;
@@ -38,4 +41,6 @@ export const updateQuestion = (data) => axios.put(updateQuestionUrl,data.changes
 export const newQuestion = (data) => axios.post(newQuestionUrl,data.changes,{headers:{'authorization' : `Bearer ${data.token}`}});
 
 export const deleteQuestion = (data) => axios.delete(deleteQuestionUrl,{data : {id : data.id},headers:{'authorization' : `Bearer ${data.token}`}});
-    
+
+// Scores API endpoints
+export const submitQuiz = (data,token) => axios.post(submitQuizUrl,data,{headers:{'authorization' : `Bearer ${token}`}});

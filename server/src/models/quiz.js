@@ -16,8 +16,7 @@ const QuizSchema = new mongoose.Schema({
     },
     participants:[{
         type:mongoose.Schema.Types.ObjectId, 
-        ref:'Users',
-        score:Number,
+        ref:'Users'
         }],
     description:{
         type:String,

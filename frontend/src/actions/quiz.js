@@ -156,3 +156,28 @@ export const deleteQuiz = (id,token) => async (dispatch) => {
     }
 }
 
+export const submitQuiz = (quizId,token,answers) => async (dispatch)=> {
+    try{
+    dispatch({type:"LOAD"});
+    const data = {quizId,answers};
+    console.log("data is : ",data);
+    const submittedQuiz = await api.submitQuiz(data,token);
+    console.log("submittedQuiz : ",submittedQuiz.data);
+    if(!submittedQuiz.data) console.log("Opps! Action failed.")
+    }
+    catch(err){
+        if(!err.response){
+            console.log(err);
+            const errmsg = { "msg" : "Server is not reachable!" };
+            dispatch({type:"ERROR", msg:errmsg});
+        }
+        else{
+            // console.log("Error in login : ",err);
+            const errmsg = err.response.data;
+            console.log("Error message : ",errmsg);
+            dispatch({type:"ERROR", msg:errmsg});
+            return false;
+        }
+    }
+}
+
