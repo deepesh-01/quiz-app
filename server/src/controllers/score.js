@@ -49,8 +49,23 @@ exports.submitQuiz = async (req,res) => {
 
         console.log("Score before saving : ",scoreObj);
 
-        const newScore = new Scores(scoreObj);
-        const score = await newScore.save();
+        const prevData = await Scores.findOne({userId:userId,quizId:quizId});
+        console.log("prevData : ",prevData);
+
+        let score = null;
+
+        if(!prevData){
+            const newScore = new Scores(scoreObj);
+            score = await newScore.save();
+        }
+        else{
+            console.log("score to update : ",score);
+            score = await Scores.findByIdAndUpdate(prevData._id,{$set : scoreObj},{new:true});
+        }
+
+        console.log("prevData : ",prevData);
+        console.log("score : ",score);
+
 
         if(!quiz.participants.includes(userId)){
             quiz = await Quiz.findByIdAndUpdate(quizId,{$push:{participants:userId}});
