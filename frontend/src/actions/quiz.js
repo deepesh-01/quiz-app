@@ -163,7 +163,15 @@ export const submitQuiz = (quizId,token,answers) => async (dispatch)=> {
     console.log("data is : ",data);
     const submittedQuiz = await api.submitQuiz(data,token);
     console.log("submittedQuiz : ",submittedQuiz.data);
-    if(!submittedQuiz.data) console.log("Opps! Action failed.")
+    if(!submittedQuiz.data){
+        dispatch({type:"ERROR",msg:"Server Error"});
+        return false;
+    }
+    else{
+        console.log("submittedQuiz : ",submittedQuiz.data);
+        dispatch({type:"SUBMIT_QUIZ",quiz:submittedQuiz.data});
+        return true;
+    }
     }
     catch(err){
         if(!err.response){

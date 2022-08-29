@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import {TextField, Grid, Container, CircularProgress, Card,InputLabel,Select,MenuItem, RadioGroup,Radio,FormControlLabel, Button, Typography} from '@material-ui/core';
+import {Grid, Container, CircularProgress, Card, RadioGroup,Radio,FormControlLabel, Button, Typography, Dialog, DialogTitle,DialogActions,DialogContent} from '@material-ui/core';
 
 import useStyles from './startQuizStyles';
 
@@ -10,10 +10,17 @@ import {getQuiz,submitQuiz} from '../../actions/quiz';
 
 export const StartQuiz = () => {
 
+    const errMsg = useSelector((state)=>state.data.errMsg);
+    const error = useSelector((state)=>state.data.error);
+    const load = useSelector((state)=>state.data.load); 
+    const user = useSelector((state)=>state.data.user);
+    const quiz = useSelector((state)=>state.data.quiz);
+    const score = useSelector((state)=>state.data.score);
+
     useEffect( async () =>{
         if(!user || !quizId) history.push('/');
         const val = await dispatch(getQuiz(quizId));
-    },[]);
+    },[score]);
 
     const history = useHistory();
     const classes = useStyles();
@@ -46,17 +53,24 @@ export const StartQuiz = () => {
         console.log("user : ",user.token);
         console.log("quizId : ",quizId);
         console.log("answer : ",answers);
-        dispatch(submitQuiz(quizId,user.token,answers));
+        const val = dispatch(submitQuiz(quizId,user.token,answers));
+        if(val) console.log("submitQuiz action dispatched successfully");
     }
 
     const quizId = history.location.state ? history.location.state.quizId : null ;
 
-    const errMsg = useSelector((state)=>state.data.errMsg);
-    const error = useSelector((state)=>state.data.error);
-    const load = useSelector((state)=>state.data.load); 
-    const user = useSelector((state)=>state.data.user);
-    const quiz = useSelector((state)=>state.data.quiz);
+    const [open,setOpen] = useState(false);
 
+    const handleClickOpen = () => {
+        console.log("set open clicked");
+        console.log("Score : ", score);
+        setOpen(true);
+    };
+      
+    const handleClose = () => {
+        setOpen(false);
+        history.push("/user");
+    };
 
     return (
         <Container component="main" className={classes.root} maxWidth="sm">
@@ -99,7 +113,28 @@ export const StartQuiz = () => {
                     )}
                     </div>
                 <div className={classes.addQ}>
-                    <Button className={classes.addQuiz} variant="contained" color="primary" size="small" onClick={handleSubmit}>Submit</Button>
+                    <Button className={classes.addQuiz} variant="contained" color="primary" size="small" onClick={()=>{handleSubmit();handleClickOpen();}}>Submit</Button>
+                </div>
+                <div>
+                    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                        <DialogTitle> Review </DialogTitle>
+                        <DialogContent dividers>
+                        <Typography gutterBottom>
+                            Questions Attempted : {score ? score.score.questionsAttempted.length : ""}
+                        </Typography>
+                        <Typography gutterBottom>
+                            Questions Correct : {score ? score.score.correctAnswers.length : ""}
+                        </Typography>
+                        <Typography gutterBottom>
+                            Score : {score ? score.score.correctAnswers.length : ""}
+                        </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                            Home
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
                 </div>
                 }
