@@ -7,6 +7,7 @@ import {Grid, Container, CircularProgress, Card, RadioGroup,Radio,FormControlLab
 import useStyles from './startQuizStyles';
 
 import {getQuiz,submitQuiz} from '../../actions/quiz';
+import { verifyUser } from '../../actions/user';
 
 export const StartQuiz = () => {
 
@@ -17,9 +18,13 @@ export const StartQuiz = () => {
     const quiz = useSelector((state)=>state.data.quiz);
     const score = useSelector((state)=>state.data.score);
 
+    const token = localStorage.getItem("jwtToken");
+    console.log("jwtToken",token);
+
     useEffect( async () =>{
-        if(!user || !quizId) history.push('/');
+        if(!token || !quizId) history.push('/');
         const val = await dispatch(getQuiz(quizId));
+        const verify = await dispatch(verifyUser());
     },[score]);
 
     const history = useHistory();

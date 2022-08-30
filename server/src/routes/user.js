@@ -5,7 +5,7 @@ const User = require('../controllers/user');
 
 router.route('/').get(User.index);
 
-router.post("/verifyuser", User.jwtVerify)
+router.get('/verifyuser', User.jwtVerify)
 
 router.put('/update', User.update);
 

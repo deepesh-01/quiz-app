@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import useStyles from './headerStyles';
 import {AppBar,Toolbar,Typography,IconButton,} from '@material-ui/core';
 import {AccountCircle} from '@material-ui/icons'
 
+import { verifyUser } from '../../actions/user';
+
 export const Header = () => {
-    const classes = useStyles();
-
-    const user = useSelector((state)=>state.data.user);
-    console.log(user);
-
-    const [isUser,setisUser] = useState(false);
-
-    const [firstname,setFirstname] = useState(null);
-
-    useEffect(()=>{
-        if(user){ 
-          setisUser(true);
-          setFirstname(user.user.firstName);
-          console.log("firstname : ", firstname);
-        }
-    },[user])
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  
+  const user = useSelector((state)=>state.data.user);
+  console.log(user);
+  
+  const [isUser,setisUser] = useState(false);
+  
+  const [firstname,setFirstname] = useState(null);
+  
+  const token = localStorage.getItem("jwtToken");
+  console.log("jwtToken",token);
+  
+  useEffect(async()=>{
+    if(user){ 
+      setisUser(true);
+      setFirstname(user.user.firstName);
+    }
+  },[user])
 
 
     return(

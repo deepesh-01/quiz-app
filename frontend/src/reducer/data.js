@@ -2,6 +2,8 @@ export default (initialState = {user:null,quizes:null,questions:[],load:false,er
     switch(action.type){
         case "LOGIN":
             return {...initialState,user:action.user,load:false,error:false}
+        case "VERIFY":
+            return {...initialState,user:action.user,load:false,error:false}
         case "LOGOUT":
             return {...initialState,user:null,load:false,error:false}
         case "REGISTER":

@@ -4,6 +4,7 @@ export const login = (input) => async (dispatch) => {
     try{
         dispatch({type:"LOAD"});
         console.log("input at login action : ", input);
+        console.log("everything stops here");
         const user = await api.login(input);
         console.log("user from login action : ",user.data);
         if(!user){
@@ -13,6 +14,7 @@ export const login = (input) => async (dispatch) => {
         }
         else{
             dispatch({type:"LOGIN", user:user.data});
+            localStorage.setItem("jwtToken",user.data.token);
             return true;
         } 
     }
@@ -42,6 +44,35 @@ export const register = (input) => async (dispatch) => {
             return false;
         }
         dispatch({type:"REGISTER", user:user.data});
+        return true
+    }
+    catch(err){
+        if(!err.response){
+            const errmsg = { "msg" : "Server is not reachable!" };
+            dispatch({type:"ERROR", msg:errmsg});
+        }
+        else{
+            const errmsg = err.response.data;
+            console.log("Error message : ",err.response);
+            dispatch({type:"ERROR", msg:errmsg});
+            return false;
+        }
+    }
+}
+
+export const verifyUser = () => async (dispatch) => {
+    try{
+        console.log("verifyUser called in user/home");
+        dispatch({type:"LOAD"});
+        const token = localStorage.getItem("jwtToken");
+        console.log("token : ",token);
+        const user = await api.verifyUser(token);
+        if(!user){
+            dispatch({type:"ERROR",msg:"Server Error"});
+            return false;
+        }
+        console.log("user in VERIFY action : ",user.data);
+        dispatch({type:"VERIFY", user:user.data});
         return true
     }
     catch(err){

@@ -3,6 +3,9 @@ import axios from 'axios';
 const loginUrl = `http://localhost:8000/api/auth/login`;
 const registerUrl = `http://localhost:8000/api/auth/register`;
 
+//verify user
+const verifyUrl = `http://localhost:8000/api/user/verifyuser`
+
 const getAllQuizUrl = `http://localhost:8000/api/quiz`;
 const updateQuizUrl = `http://localhost:8000/api/quiz/updatequiz`;
 // const getQuizUrl = `http://localhost:8000/api/quiz/${id}`;
@@ -21,6 +24,9 @@ const deleteQuestionUrl = `http://localhost:8000/api/question/delete`;
 export const login = (input) => axios.post(loginUrl,input);
 
 export const register = (input) => axios.post(registerUrl,input);
+
+// User Verify EndPoint
+export const verifyUser = (token) => axios.get(verifyUrl,{headers:{'authorization' : `Bearer ${token}`}});
 
 // Quiz API endpoints
 export const getAllQuiz = () => axios.get(getAllQuizUrl);

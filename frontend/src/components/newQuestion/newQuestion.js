@@ -4,28 +4,38 @@ import {useHistory} from 'react-router-dom';
 
 import {Container,TextField,Button,Grid,CircularProgress,Typography} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
+
 import {newQuestion} from '../../actions/question';
+import { verifyUser } from '../../actions/user';
+import {getQuiz, updateQuiz} from '../../actions/quiz';
 
 import useStyles from './newQuestionStyles';
 
 export const NewQuestion = () => {
-
+    
     const history = useHistory();
     const dispatch = useDispatch();
     const classes = useStyles();
-
+    
     const errMsg = useSelector((state)=>state.data.errMsg);
     const error = useSelector((state)=>state.data.error);
     const load = useSelector((state)=>state.data.load); 
     const user = useSelector((state)=>state.data.user);
     const quiz = useSelector((state)=>state.data.quiz);
 
+    const quizId = history.location.state ? history.location.state.quizid : null ;
+    
     const [empty,setEmpty] = useState(false);
-
+    
+    const token = localStorage.getItem("jwtToken");
+    console.log("jwtToken",token);
+    
     useEffect( async () =>{
-        if(!user || !quiz) history.push('/');
+        if(!token || !quizId) history.push('/editquiz');
         else{
-        setInputs({...inputs,quizId:quiz?.quiz?._id,createdBy:user?.user?._id});}
+            const verify = await dispatch(verifyUser());
+            const val = await dispatch(getQuiz(quizId));
+        }
     },[]);
 
     const [inputs,setInputs] = useState({
@@ -53,7 +63,8 @@ export const NewQuestion = () => {
         else{
         setEmpty(false);
         console.log("Inputs are : ",inputs);
-        const token = user.token;
+        const token = localStorage.getItem("jwtToken");
+        setInputs({...inputs,quizId:quiz?.quiz?._id,createdBy:user?.user?._id});
         const val = await dispatch(newQuestion(inputs,token));
         history.goBack();
         console.log("val of newQuestion : ",val);

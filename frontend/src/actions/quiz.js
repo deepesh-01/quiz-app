@@ -2,6 +2,7 @@ import * as api from '../api/api';
 
 export const getAllQuiz = () => async (dispatch) => {
     try{
+        console.log("getAllQuiz called in user/home");
         dispatch({type:"LOAD"});
         const quiz = await api.getAllQuiz();
         console.log("Quiz from getAllQuiz action : ",quiz.data);

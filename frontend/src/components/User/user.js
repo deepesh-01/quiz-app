@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
 import { getAllQuiz, deleteQuiz } from '../../actions/quiz';
+import { verifyUser } from '../../actions/user';
 
 import { CircularProgress, Card, CardContent, Typography, CardActions, Button, Grid, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 
@@ -24,16 +25,18 @@ export const User = () => {
     
     const [open, setOpen] = useState(false);
 
+    const token = localStorage.getItem("jwtToken");
+    console.log("jwtToken",token);
+
+    
     useEffect(async () => {
-        if (!user) history.push('/');
-        const val = await dispatch(getAllQuiz());
+        if (!token) history.push('/');
+        const gquiz = await dispatch(getAllQuiz());
+        const verify = await dispatch(verifyUser());
         // console.log("val in useEffect : ", val);
         // console.log("quizes after useEffect : ", quizes);
-        console.log("User useEffect rendered : ", run);
-        setRun(run=>run+1);
     }, []);
-
-    const [run,setRun] = useState(0);
+    
 
     console.log("error : ", error, " load : ", load);
 
@@ -69,8 +72,8 @@ export const User = () => {
         handleClose();
         setDeleteq(false);
         if (quizId) {
-            const token = user.token;
             console.log("id in deleteQuize is : ", quizId);
+            const token = localStorage.getItem("jwtToken");
             console.log("token in deleteQuize is : ", token);
             const val = await dispatch(deleteQuiz(quizId.id, token));
             setDeleteq(val);

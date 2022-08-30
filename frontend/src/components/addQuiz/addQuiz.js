@@ -4,18 +4,13 @@ import {useHistory} from 'react-router-dom';
 
 import {Container,TextField,Button,Grid,CircularProgress,Typography} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
+
 import {newQuiz} from '../../actions/quiz';
+import { verifyUser } from '../../actions/user';
 
 import useStyles from './addQuizStyles';
 
 export const NewQuiz = () => {
-
-    useEffect(()=>{
-        if(!user) history.push('/');
-        else{
-        setInputs({...inputs,createdBy:user?.user?._id});
-        }
-    },[]);
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -26,6 +21,17 @@ export const NewQuiz = () => {
     const load = useSelector((state)=>state.data.load); 
     const user = useSelector((state)=>state.data.user);
     const quiz = useSelector((state)=>state.data.quiz);
+
+    const token = localStorage.getItem("jwtToken");
+    console.log("jwtToken",token);
+
+    useEffect(async ()=>{
+        if(!token) history.push('/');
+        else{
+        const verify = await dispatch(verifyUser());
+        }
+    },[]);
+
 
     const [empty,setEmpty] = useState(false);
 
@@ -42,8 +48,10 @@ export const NewQuiz = () => {
         if(!inputs.name || !inputs.description) setEmpty(true);
         else{
             console.log("Inputs are : ",inputs);
-            const token = user.token;
+            const token = localStorage.getItem("jwtToken");
             console.log("User token is : ",token);
+            console.log("userId",user.user._id);
+            setInputs({...inputs,createdBy:user.user._id});
             const val = await dispatch(newQuiz(inputs,token));
             setEmpty(val);
             if(val) history.goBack();
@@ -55,7 +63,7 @@ export const NewQuiz = () => {
         <Container component="main" className={classes.root} maxWidth="sm">
             { error ? <p> {errMsg.msg || errMsg.message} </p> : null }
             <Grid spacing={2} direction="column" alignItems="center" justify="center">
-                {load || !user ? <CircularProgress/> : null} 
+                {load || !user ? <CircularProgress/> :  
                 <Grid item className={classes.gridItem} sm={12} xs={12}>
                 <Typography className={classes.title} gutterBottom>
                     Add New Quiz
@@ -79,6 +87,7 @@ export const NewQuiz = () => {
                     {empty ? <Alert style={{marginLeft : "20px"}} severity="error"> {"Please fill all the fields."} </Alert> : null}
                 <Button fullWidth className={classes.addQuiz}  variant="contained" color="primary" size="small" disabled={!user.user.admin} onClick={handleSubmit}>Add New Quiz</Button>
                 </Grid>
+                }
             </Grid>
         </Container>
         </div>

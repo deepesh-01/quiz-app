@@ -12,11 +12,16 @@ exports.index = async function (req,res){
 };
 
 exports.jwtVerify = async (req,res) => {
-    const _id = req.user._id;
-    // const _id = mongoose.Types.ObjectId(userid);
-    console.log("user id jwt verify : ",_id);
-    const user = await User.findById({_id})
-    res.status(200).json({user});
+    try{
+        const _id = req.user._id;
+        // const _id = mongoose.Types.ObjectId(userid);
+        const user = await User.findById({_id});
+        console.log("user jwt verify",user)
+        res.status(200).json({user});
+    }
+    catch(error) {
+        res.status(500).json({success:false, message: error.message});
+    }
 }
 
 // @route Post api/user

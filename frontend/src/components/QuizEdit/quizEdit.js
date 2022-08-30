@@ -7,6 +7,7 @@ import {TextField, Grid, Container, CircularProgress, Card,InputLabel,Select,Men
 
 import {getQuiz, updateQuiz} from '../../actions/quiz';
 import {deleteQuestion} from '../../actions/question';
+import { verifyUser } from '../../actions/user';
 
 import useStyles from './quizEditStyles';
 
@@ -14,7 +15,7 @@ export const Quiz = (props) =>{
     const history = useHistory();
     const dispatch = useDispatch();
     const classes = useStyles();
-
+    
     const quizId = history.location.state ? history.location.state.quizid : null ;
     // console.log("quizId in quizEdit is : ",quizId);
     const errMsg = useSelector((state)=>state.data.errMsg);
@@ -22,10 +23,16 @@ export const Quiz = (props) =>{
     const load = useSelector((state)=>state.data.load); 
     const user = useSelector((state)=>state.data.user);
     const quiz = useSelector((state)=>state.data.quiz);
-
+    
+    
+    const token = localStorage.getItem("jwtToken");
+    console.log("jwtToken",token);
+    
+    
     useEffect( async () =>{
-        if(!user || !quizId) history.push('/');
+        if(!token || !quizId) history.push('/user');
         const val = await dispatch(getQuiz(quizId));
+        const verify = await dispatch(verifyUser());
         console.log("dispatch getQuiz val : ",val);
         setEmpty(false);
     },[]);
@@ -168,7 +175,12 @@ export const Quiz = (props) =>{
                             variant="contained"
                             color="secondary"
                             className={classes.addButton}
-                            onClick={()=>history.push('/newquestion')}
+                            onClick={()=>
+                                history.push({
+                                pathname: '/newquestion',
+                                state: { quizid: quizId }
+                                })
+                            }
                         >Add Questions</Button>
                     </div>
                     }    

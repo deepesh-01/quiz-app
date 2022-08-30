@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
@@ -7,25 +7,36 @@ import {LockOutlined} from '@material-ui/icons';
 import {Alert} from '@material-ui/lab';
 
 import useStyles from './homeStyles';
+
 import {login} from '../../actions/user';
+import { verifyUser } from '../../actions/user';
 
 export const LogIn = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  
+  const [inputs,setInputs] = useState({
+    email : '',
+    password: '',
+  });
+  
+  // console.log("error : ",error);
+  // console.log("load : ",load);
+  
+  const token = localStorage.getItem("jwtToken");
+  console.log("jwtToken",token);
 
-    const [inputs,setInputs] = useState({
-        email : '',
-        password: '',
-    });
-
-    // console.log("error : ",error);
-    // console.log("load : ",load);
-
-
-    const [submitted,setSubmitted] = useState(false);
-    const [submitCp,setSubmitCp] = useState(false);
-    const [dis,setDis] = useState(true);
+  useEffect(async () =>{
+    if(token){
+      const verify = await dispatch(verifyUser());
+      history.push('/user');
+    }
+  },[])
+  
+  const [submitted,setSubmitted] = useState(false);
+  const [submitCp,setSubmitCp] = useState(false);
+  const [dis,setDis] = useState(true);
 
     const errMsg = useSelector((state)=>state.data.errMsg);
     

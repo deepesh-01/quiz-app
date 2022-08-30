@@ -8,16 +8,17 @@ import {Grid,TextField,Typography,Button,CircularProgress,Container, Dialog, Dia
 import {Alert} from '@material-ui/lab';
 
 import {getQues, updateQuestion} from '../../actions/question';
+import { verifyUser } from '../../actions/user';
 
 export const  QuestionEdit = () => {
-
+    
     const history = useHistory();
     const dispatch = useDispatch();
     const classes = useStyles();
-
+    
     const questionId = history.location.state ? history.location.state.questionId : null ;
     // console.log("history state questionId : ",questionId);
-
+    
     const errMsg = useSelector((state)=>state.data.errMsg);
     const error = useSelector((state)=>state.data.error);
     const load = useSelector((state)=>state.data.load); 
@@ -26,12 +27,16 @@ export const  QuestionEdit = () => {
     
     const [open,setOpen] = useState(false);
     const [success,setSuccess] = useState(false);
-
+    
     let val = false;
-
+    
+    const token = localStorage.getItem("jwtToken");
+    console.log("jwtToken",token);
+    
     useEffect( async () =>{
-        if(!user) history.push('/');
+        if(!token) history.push('/');
         val = await dispatch(getQues(questionId));
+        const verify = await dispatch(verifyUser());
         console.log("val is : ",val);
         
     },[]);
