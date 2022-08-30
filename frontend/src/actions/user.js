@@ -88,3 +88,17 @@ export const verifyUser = () => async (dispatch) => {
         }
     }
 }
+
+export const logOutUser = () => (dispatch) => {
+    try{
+        console.log("logOut action called");
+        dispatch({type:"LOAD"});
+        dispatch({type:"LOGOUT"});
+        return true
+    }
+    catch(err){
+        const errmsg = { "msg" : "Logout Error!" };
+        console.log("Error : ",err);
+        dispatch({type:"ERROR", msg:errmsg});
+    }
+}

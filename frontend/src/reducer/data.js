@@ -5,7 +5,7 @@ export default (initialState = {user:null,quizes:null,questions:[],load:false,er
         case "VERIFY":
             return {...initialState,user:action.user,load:false,error:false}
         case "LOGOUT":
-            return {...initialState,user:null,load:false,error:false}
+            return {...initialState,user:null,load:false,error:false,quizes:null,questions:[],question:null,score:null}
         case "REGISTER":
             return {...initialState,user:action.user,load:false,error:false}
         case "GET_ALL_QUIZ":

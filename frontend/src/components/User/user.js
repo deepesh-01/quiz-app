@@ -127,8 +127,30 @@ export const User = () => {
                                 </CardContent>
                                 <CardActions>
                                     <Button variant="contained" color="primary" size="small" disabled={quiz.noOfQue > 9 ? false : true} onClick={() => startQuiz(quiz._id)}>Start Quiz</Button>
-                                    <Button variant="contained" color="primary" size="small" disabled={!user.user.admin} onClick={() => editQuiz(quiz._id)}>Edit Quiz</Button>
-                                    <Button variant="contained" color="primary" size="small" disabled={!user.user.admin} onClick={() => handleClickOpen(quiz._id)}>Delete Quiz</Button>
+                                    {user.user.admin ? 
+                                        <Button 
+                                        variant="contained" 
+                                        color="primary" 
+                                        size="small" 
+                                        disabled={""} 
+                                        onClick={() => editQuiz(quiz._id)}>
+                                            Edit Quiz
+                                        </Button> 
+                                        :
+                                        null
+                                    }
+                                    {user.user.admin?
+                                        <Button 
+                                        variant="contained" 
+                                        color="primary" 
+                                        size="small" 
+                                        disabled={""} 
+                                        onClick={() => handleClickOpen(quiz._id)}>
+                                            Delete Quiz
+                                        </Button>
+                                        :
+                                        null
+                                    }
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -137,7 +159,20 @@ export const User = () => {
             }
             {!user ? <span> No user present </span> :
                 <div className={classes.addQ}>
-                    <Button className={classes.addQuiz} variant="contained" color="primary" size="small" disabled={!user.user.admin} onClick={addQuiz}>Add New Quiz</Button>
+                    {user.user.admin ?
+                        <Button 
+                            className={classes.addQuiz} 
+                            variant="contained" 
+                            color="primary" 
+                            size="small" 
+                            disabled={""} 
+                            onClick={addQuiz}>
+                                Add New Quiz
+                        </Button>
+                        :
+                        null
+                    }
+
                 </div>
             }
             </div>
