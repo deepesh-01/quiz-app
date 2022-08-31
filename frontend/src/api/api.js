@@ -3,19 +3,22 @@ import axios from 'axios';
 const loginUrl = `http://localhost:8000/api/auth/login`;
 const registerUrl = `http://localhost:8000/api/auth/register`;
 
+//get user score
+const userScoreUrl = `http://localhost:8000/api/score/userscores`
+
 //verify user
 const verifyUrl = `http://localhost:8000/api/user/verifyuser`
 
+//quiz urls
 const getAllQuizUrl = `http://localhost:8000/api/quiz`;
 const updateQuizUrl = `http://localhost:8000/api/quiz/updatequiz`;
-// const getQuizUrl = `http://localhost:8000/api/quiz/${id}`;
 const newQuizUrl = `http://localhost:8000/api/quiz/newquiz`;
 const deleteQuizUrl = `http://localhost:8000/api/quiz/deletequiz`;
 
-// const submitQuizUrl = `http://localhost:8000/api/quiz/submitquiz`;
+//submit quiz
 const submitQuizUrl = `http://localhost:8000/api/score/submitquiz` ;
 
-// const getQuestionUrl = `http://localhost:8000/api/question/${questionId}`;
+//question urls
 const updateQuestionUrl = `http://localhost:8000/api/question/update`
 const newQuestionUrl = `http://localhost:8000/api/question/new`;
 const deleteQuestionUrl = `http://localhost:8000/api/question/delete`;
@@ -50,3 +53,5 @@ export const deleteQuestion = (data) => axios.delete(deleteQuestionUrl,{data : {
 
 // Scores API endpoints
 export const submitQuiz = (data,token) => axios.post(submitQuizUrl,data,{headers:{'authorization' : `Bearer ${token}`}});
+
+export const getUserScores = (token) => axios.post(userScoreUrl,null,{headers:{'authorization' : `Bearer ${token}`}});

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { getAllQuiz, deleteQuiz } from '../../actions/quiz';
+import { getAllQuiz, deleteQuiz,getUserScores } from '../../actions/quiz';
 import { verifyUser } from '../../actions/user';
 
 import { CircularProgress, Card, CardContent, Typography, CardActions, Button, Grid, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
@@ -20,6 +20,7 @@ export const User = () => {
     const load = useSelector((state) => state.data.load);
     const error = useSelector((state) => state.data.error);
     const errMsg = useSelector((state)=>state.data.errMsg);
+    const scores = useSelector((state)=>state.data.scores);
 
     const [deleteq, setDeleteq] = useState(false);
     
@@ -33,8 +34,7 @@ export const User = () => {
         if (!token) history.push('/');
         const gquiz = await dispatch(getAllQuiz());
         const verify = await dispatch(verifyUser());
-        // console.log("val in useEffect : ", val);
-        // console.log("quizes after useEffect : ", quizes);
+        const scores = await dispatch(getUserScores());
     }, []);
     
 
@@ -124,6 +124,15 @@ export const User = () => {
                                     <Typography variant="body2" className={classes.pos} color="textSecondary">
                                         {moment(quiz.createdAt).calendar()}
                                     </Typography>
+                                    {
+                                        quiz.participants.includes(user.user._id) ? 
+                                        <Typography variant="body2" className={classes.attempted} >
+                                            Attempted
+                                        </Typography>
+                                        :
+                                        null
+                                    }
+
                                 </CardContent>
                                 <CardActions>
                                     <Button variant="contained" color="primary" size="small" disabled={quiz.noOfQue > 9 ? false : true} onClick={() => startQuiz(quiz._id)}>Start Quiz</Button>

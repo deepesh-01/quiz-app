@@ -55,10 +55,11 @@ export const StartQuiz = () => {
     }
 
     const handleSubmit = () => {
-        console.log("user : ",user.token);
+        const token = localStorage.getItem("jwtToken");
+        console.log("jwtToken : ",token);
         console.log("quizId : ",quizId);
         console.log("answer : ",answers);
-        const val = dispatch(submitQuiz(quizId,user.token,answers));
+        const val = dispatch(submitQuiz(quizId,token,answers));
         if(val) console.log("submitQuiz action dispatched successfully");
     }
 

@@ -83,4 +83,22 @@ exports.submitQuiz = async (req,res) => {
         return res.status(500).json({message:error.message});
     }
 }
+
+exports.getUserScores = async (req,res) => {
+    console.log("getUserScores in server called");
+    try{
+        const userId = req.user._id;
+        console.log("userId : ",userId)
+        let scores = await Scores.find({userId:userId});
+        console.log("scores : ",scores);
+        return res.status(200).json({scores:scores,message:"Got all the user scores."});
+    }
+    catch(err){
+        console.log(error);
+        return res.status(500).json({message:error.message});
+    }
+}
     
+
+// 613c5a830a3f7519b40d17e1
+// 613c5a830a3f7519b40d17e1

@@ -190,3 +190,36 @@ export const submitQuiz = (quizId,token,answers) => async (dispatch)=> {
     }
 }
 
+export const getUserScores = () => async (dispatch)=> {
+    try{
+    dispatch({type:"LOAD"});
+    console.log("get user scores called");
+    const token = localStorage.getItem("jwtToken");
+    console.log("token in getUserScores : ",token);
+    const getScores = await api.getUserScores(token);
+    if(!getScores.data){
+        dispatch({type:"ERROR",msg:"Server Error"});
+        return false;
+    }
+    else{
+        console.log("submittedQuiz : ",getScores.data);
+        dispatch({type:"GET_USER_SCORES",quiz:getScores.data});
+        return true;
+    }
+    }
+    catch(err){
+        if(!err.response){
+            console.log(err);
+            const errmsg = { "msg" : "Server is not reachable!" };
+            dispatch({type:"ERROR", msg:errmsg});
+        }
+        else{
+            // console.log("Error in login : ",err);
+            const errmsg = err.response.data;
+            console.log("Error message : ",errmsg);
+            dispatch({type:"ERROR", msg:errmsg});
+            return false;
+        }
+    }
+}
+

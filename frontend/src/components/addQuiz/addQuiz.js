@@ -35,7 +35,7 @@ export const NewQuiz = () => {
 
     const [empty,setEmpty] = useState(false);
 
-    const [inputs,setInputs] = useState({createdBy:'',name:'',description:''});
+    const [inputs,setInputs] = useState({createdBy:user.user._id,name:'',description:''});
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -45,14 +45,18 @@ export const NewQuiz = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setEmpty(false);
-        if(!inputs.name || !inputs.description) setEmpty(true);
+        if(!inputs.createdBy) setInputs({...inputs,createdBy:user.user._id});
+        if(!inputs.name || !inputs.description || !inputs.createdBy){ 
+            setEmpty(true);
+        }
         else{
             console.log("Inputs are : ",inputs);
             const token = localStorage.getItem("jwtToken");
             console.log("User token is : ",token);
-            console.log("userId",user.user._id);
-            setInputs({...inputs,createdBy:user.user._id});
-            const val = await dispatch(newQuiz(inputs,token));
+            console.log("User is : ",user.user);
+            console.log("userId : ",user.user._id);
+            console.log("Inputs are : ",inputs);
+            const val =await dispatch(newQuiz(inputs,token));
             setEmpty(val);
             if(val) history.goBack();
         }

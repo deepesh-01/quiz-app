@@ -29,5 +29,11 @@ export default makeStyles((theme)=>({
       },
       addQ:{
         textAlignLast:"center"
-      }
+      },
+      attempted: {
+        marginTop: 6,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fontSize: 12,
+      },
 }));

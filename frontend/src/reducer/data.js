@@ -1,4 +1,4 @@
-export default (initialState = {user:null,quizes:null,questions:[],load:false,error:false,errMsg:"This is error",quiz:null,question:null,score:null}, action) => {
+export default (initialState = {user:null,quizes:null,questions:[],load:false,error:false,errMsg:"This is error",quiz:null,question:null,score:null,scores:[]}, action) => {
     switch(action.type){
         case "LOGIN":
             return {...initialState,user:action.user,load:false,error:false}
@@ -20,6 +20,8 @@ export default (initialState = {user:null,quizes:null,questions:[],load:false,er
             return {...initialState,quizes:action.quiz,load:false,error:false}
         case "SUBMIT_QUIZ":
             return {...initialState,score:action.quiz,load:false,error:false}
+        case "GET_USER_SCORES":
+            return {...initialState,scores:action.quiz,load:false,error:false}
         case "GET_QUESTION":
             return {...initialState,question:action.question,load:false,error:false}
         case "UPDATE_QUESTION":
