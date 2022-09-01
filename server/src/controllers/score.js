@@ -63,18 +63,18 @@ exports.submitQuiz = async (req,res) => {
             score = await Scores.findByIdAndUpdate(prevData._id,{$set : scoreObj},{new:true});
         }
 
-        console.log("prevData : ",prevData);
-        console.log("score : ",score);
-
 
         if(!quiz.participants.includes(userId)){
-            quiz = await Quiz.findByIdAndUpdate(quizId,{$push:{participants:userId}});
+                // quiz = await Quiz.findByIdAndUpdate({_id:quizId},{$push:{participants:userId}});
+                quiz.participants.push(userId);
+                await quiz.save();
         }
 
-        if(!user.appeared.includes(quizId)){
-            user = await User.findByIdAndUpdate(userId,{$push:{appeared:quizId}});
+        if(!user.appeared.includes(score._id)){
+            user.appeared.push(score._id);
+            await user.save();
         }
-        console.log("score after saving : ",score);
+
         return res.status(200).json({score:score,message:"This API is working"});
         
     }

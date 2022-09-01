@@ -30,8 +30,8 @@ const UserSchema = new mongoose.Schema({
         required:"Phone number is required",
     },
     appeared:[{
-        quiz : {type:mongoose.Schema.Types.ObjectId, ref:'Quizes',},
-        score : {type:Number, default : 0}
+        type:mongoose.Schema.Types.ObjectId, 
+        ref:'Scores',
     }],
     admin:{
         type:Boolean,
