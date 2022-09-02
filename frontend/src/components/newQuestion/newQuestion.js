@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import {Container,TextField,Button,Grid,CircularProgress,Typography} from '@material-ui/core';
+import {Container,TextField,Button,Grid,CircularProgress,Typography,Dialog,DialogActions,DialogContent} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
 
 import {newQuestion} from '../../actions/question';
@@ -37,6 +37,16 @@ export const NewQuestion = () => {
             const val = await dispatch(getQuiz(quizId));
         }
     },[]);
+
+    const [open,setOpen] = useState(true);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     const [inputs,setInputs] = useState({
         quizId:'',
@@ -75,7 +85,24 @@ export const NewQuestion = () => {
     return (
         <div>
             <Container component="main" className={classes.root} maxWidth="sm">
-                { error ? <p> {errMsg.msg} </p> : 
+                { error ? <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                        <DialogContent dividers>
+                        <Typography gutterBottom>
+                                Error
+                            </Typography>
+                            </DialogContent>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                {error.msg || errMsg} 
+                            </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                            Ok
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+                     : 
                 <Grid spacing={2} direction="column" alignItems="center" justify="center">
                     {load || !user ? <CircularProgress/> : 
                     <Grid item className={classes.gridItem} sm={12} xs={12}>

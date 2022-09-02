@@ -18,13 +18,13 @@ export const getQues = (id) => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -49,13 +49,13 @@ export const updateQuestion = (changes,token) => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -80,13 +80,13 @@ export const newQuestion = (changes,token) => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -112,13 +112,13 @@ export const deleteQuestion = (id,token) => async (dispatch) => {
         if(!err.response){
             console.log("err is : ",err);
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }

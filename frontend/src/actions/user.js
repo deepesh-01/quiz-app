@@ -21,13 +21,13 @@ export const login = (input) => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -49,12 +49,12 @@ export const register = (input) => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             const errmsg = err.response.data;
             console.log("Error message : ",err.response);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -78,12 +78,12 @@ export const verifyUser = () => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             const errmsg = err.response.data;
             console.log("Error message : ",err.response);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -107,12 +107,12 @@ export const updateUser = (updateData) => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             const errmsg = err.response.data;
             console.log("Error message : ",err.response);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -128,6 +128,6 @@ export const logOutUser = () => (dispatch) => {
     catch(err){
         const errmsg = { "msg" : "Logout Error!" };
         console.log("Error : ",err);
-        dispatch({type:"ERROR", msg:errmsg});
+        dispatch({type:"ERROR", msg:errmsg.msg});
     }
 }

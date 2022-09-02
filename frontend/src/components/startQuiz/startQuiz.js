@@ -65,22 +65,49 @@ export const StartQuiz = () => {
 
     const quizId = history.location.state ? history.location.state.quizId : null ;
 
-    const [open,setOpen] = useState(false);
+    const [openScore,setOpenScore] = useState(false);
 
-    const handleClickOpen = () => {
+    const handleClickScore = () => {
         console.log("set open clicked");
         console.log("Score : ", score);
-        setOpen(true);
+        setOpenScore(true);
     };
       
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseScore = () => {
+        setOpenScore(false);
         history.push("/user");
+    };
+
+    const [open,setOpen] = useState(true);
+
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    
+    const handleClose = () => {
+      setOpen(false);
     };
 
     return (
         <Container component="main" className={classes.root} maxWidth="sm">
-        { error ? <p> Error : {errMsg.msg || errMsg.message} </p> : null}
+        { error ? <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                Error
+                            </Typography>
+                            </DialogContent>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                {error.msg || errMsg} 
+                            </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button autoFocus onClick={handleClose}>
+                                Ok
+                            </Button>
+                            </DialogActions>
+                        </Dialog> :
+            <div>
             <Grid spacing={2} direction="column" alignItems="center" justify="center">
                 {load || !quiz ? <CircularProgress/> :
                 <div>
@@ -119,10 +146,10 @@ export const StartQuiz = () => {
                     )}
                     </div>
                 <div className={classes.addQ}>
-                    <Button className={classes.addQuiz} variant="contained" color="primary" size="small" onClick={()=>{handleSubmit();handleClickOpen();}}>Submit</Button>
+                    <Button className={classes.addQuiz} variant="contained" color="primary" size="small" onClick={()=>{handleSubmit();handleClickScore();}}>Submit</Button>
                 </div>
                 <div>
-                    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                    <Dialog onClose={handleCloseScore} aria-labelledby="customized-dialog-title" open={openScore}>
                         <DialogTitle> Review </DialogTitle>
                         <DialogContent dividers>
                         <Typography gutterBottom>
@@ -136,7 +163,7 @@ export const StartQuiz = () => {
                         </Typography>
                         </DialogContent>
                         <DialogActions>
-                        <Button autoFocus onClick={handleClose}>
+                        <Button autoFocus onClick={handleCloseScore}>
                             Home
                         </Button>
                         </DialogActions>
@@ -145,6 +172,8 @@ export const StartQuiz = () => {
                 </div>
                 }
             </Grid>
+            </div>
+            }
         </Container>
     )
 }

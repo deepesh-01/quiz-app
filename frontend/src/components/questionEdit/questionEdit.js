@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 
 import useStyles from './questionEditStyles';
 
-import {Grid,TextField,Typography,Button,CircularProgress,Container, Dialog, DialogTitle, DialogActions,Select,InputLabel,MenuItem, Radio,RadioGroup,FormControlLabel} from '@material-ui/core';
+import {Grid,TextField,Typography,Button,CircularProgress,Container, Dialog, DialogTitle, DialogActions, DialogContent,Select,InputLabel,MenuItem, Radio,RadioGroup,FormControlLabel} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
 
 import {getQues, updateQuestion} from '../../actions/question';
@@ -25,7 +25,7 @@ export const  QuestionEdit = () => {
     const user = useSelector((state)=>state.data.user);
     const oldQ = useSelector((state)=>state.data.question);
     
-    const [open,setOpen] = useState(false);
+    const [openUpdtae,setOpenUpdtae] = useState(false);
     const [success,setSuccess] = useState(false);
     
     let val = false;
@@ -46,12 +46,12 @@ export const  QuestionEdit = () => {
     const [empty,setEmpty] = useState(false);
 
 
-    const handleOpen = () => {
-        setOpen(true);
+    const handleOpenUpdate = () => {
+        setOpenUpdtae(true);
     }
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseUpdate = () => {
+        setOpenUpdtae(false);
     }
 
     const handleField = (e) => {
@@ -62,6 +62,16 @@ export const  QuestionEdit = () => {
         setValue(e.target.value);
     }
 
+    const [open,setOpen] = useState(true);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    
+    const handleClose = () => {
+      setOpen(false);
+    };
+
     const handleSubmit = async (e) => {
         setEmpty(false)
         e.preventDefault();
@@ -69,7 +79,7 @@ export const  QuestionEdit = () => {
         data[field] = value;
         console.log(data);
         if(value){
-        handleOpen();
+        handleOpenUpdate();
         const val = await dispatch(updateQuestion(data,user.token));
         console.log("val :",val);
         setSuccess(val);
@@ -84,8 +94,8 @@ export const  QuestionEdit = () => {
         <div>
             <Container component="main" className={classes.root} maxWidth="sm">
                         <Dialog
-                        open={open}
-                        onClose={handleClose}
+                        open={openUpdtae}
+                        onClose={handleCloseUpdate}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                         >
@@ -96,7 +106,25 @@ export const  QuestionEdit = () => {
                         <Button onClick={handleClose}>Done</Button>
                         </DialogActions>
                     </Dialog>
-                {error ? <p> {errMsg.message} </p> : 
+                    {error ? 
+                        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                Error
+                            </Typography>
+                            </DialogContent>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                {error.msg || errMsg} 
+                            </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button autoFocus onClick={handleClose}>
+                                Ok
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
+                    : 
                 <Grid spacing={2} direction="column" alignItems="center" justify="center">
                     {load || !oldQ ? <CircularProgress/> : 
                     <div>

@@ -74,7 +74,23 @@ export const UserProfile = () => {
         <div>
           {
             error ? 
-            errMsg.message || errMsg.msg 
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                Error
+                            </Typography>
+                            </DialogContent>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                {error.msg || errMsg} 
+                            </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button autoFocus onClick={handleClose}>
+                                Ok
+                            </Button>
+                            </DialogActions>
+                        </Dialog> 
             :
             <Container component="main" maxWidth="xs">
                 <div>

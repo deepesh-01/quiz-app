@@ -18,13 +18,13 @@ export const getAllQuiz = () => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -48,13 +48,13 @@ export const getQuiz = (id) => async (dispatch) => {
     catch(err){
         if(!err.response){
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -80,13 +80,13 @@ export const updateQuiz = (changes,token) => async (dispatch) => {
         if(!err.response){
             console.log(err);
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -112,13 +112,13 @@ export const newQuiz = (nQuiz,token) => async (dispatch) => {
         if(!err.response){
             console.log(err);
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -145,13 +145,13 @@ export const deleteQuiz = (id,token) => async (dispatch) => {
         if(!err.response){
             console.log(err);
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -178,13 +178,13 @@ export const submitQuiz = (quizId,token,answers) => async (dispatch)=> {
         if(!err.response){
             console.log(err);
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }
@@ -211,13 +211,13 @@ export const getUserScores = () => async (dispatch)=> {
         if(!err.response){
             console.log(err);
             const errmsg = { "msg" : "Server is not reachable!" };
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
         }
         else{
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg});
+            dispatch({type:"ERROR", msg:errmsg.msg});
             return false;
         }
     }

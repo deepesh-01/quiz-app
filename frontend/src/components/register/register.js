@@ -2,7 +2,7 @@ import React, { useDebugValue, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import {Avatar,Button,TextField,Link,Grid,Typography,Container,CircularProgress} from '@material-ui/core';
+import {Avatar,Button,TextField,Link,Grid,Typography,Container,CircularProgress,Dialog,DialogActions,DialogContent} from '@material-ui/core';
 import {LockOutlined} from '@material-ui/icons'
 import {Alert} from '@material-ui/lab';
 
@@ -18,8 +18,9 @@ export const Register = () => {
     const [submitted,setSubmitted] = useState(false);
     const [submitCp,setSubmitCp] = useState(false);
     const [dis,setDis] = useState(true);
-
+    
     const errMsg = useSelector((state)=>state.data.errMsg);
+    const error = useSelector((state)=>state.data.error);
 
     const [inputs,setInputs] = useState({
         email:'',
@@ -28,6 +29,16 @@ export const Register = () => {
         lastName:'',
         phoneNumber:'',
     });
+
+    const [open,setOpen] = useState(true);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -53,7 +64,26 @@ export const Register = () => {
 
     return(
         <Container component="main" maxWidth="xs">
-            {/* <CssBaseline/> */}
+            {error ? 
+                        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                Error
+                            </Typography>
+                            </DialogContent>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                {error.msg || errMsg} 
+                            </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button autoFocus onClick={handleClose}>
+                                Ok
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
+                    :
+                    
             <div className={classes.paper}>
                 {submitCp ? <CircularProgress className={classes.circular}/> :
                     <Avatar className={classes.avatar}>
@@ -160,6 +190,7 @@ export const Register = () => {
 
                 </form>
             </div>
+            }
         </Container>
     );
 

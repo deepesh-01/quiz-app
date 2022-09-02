@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import {CircularProgress,Avatar,Button,CssBaseline,TextField,Typography,Container,Grid,Link} from '@material-ui/core';
+import {CircularProgress,Avatar,Button,CssBaseline,TextField,Typography,Container,Grid,Link,Dialog,DialogActions,DialogContent} from '@material-ui/core';
 import {LockOutlined} from '@material-ui/icons';
 import {Alert} from '@material-ui/lab';
 
@@ -39,36 +39,64 @@ export const LogIn = () => {
   const [dis,setDis] = useState(true);
 
   const errMsg = useSelector((state)=>state.data.errMsg);
+  const error = useSelector((state)=>state.data.error);
     
-    // console.log("errMsg : ", errMsg);
+  const [open,setOpen] = useState(true);
 
-    const handleChange = (e) => {
-        const value = e.target.value;
-        setInputs({...inputs,[e.target.name]:value});
-    }
+  const handleClickOpen = () => {
+      setOpen(true);
+  };
+    
+  const handleClose = () => {
+      setOpen(false);
+  };
 
-    const handleSubmit = async (e) => {
-        setDis(true);
-        e.preventDefault();
-        setSubmitted(true);
-        setSubmitCp(true);
-        if( !inputs.email || !inputs.password ) setSubmitCp(false)
-        console.log(inputs);
-        
-        const val = await dispatch(login(inputs));
-        console.log(val);
-        setDis(val); 
-        setSubmitCp(val);
-        console.log("errMsg : ", errMsg);
-        {val ? history.push('/user') : history.push('/')}
-        // console.log("dispatch value : ",dis);
-    }
+  const handleChange = (e) => {
+      const value = e.target.value;
+      setInputs({...inputs,[e.target.name]:value});
+  }
+
+  const handleSubmit = async (e) => {
+      setDis(true);
+      e.preventDefault();
+      setSubmitted(true);
+      setSubmitCp(true);
+      if( !inputs.email || !inputs.password ) setSubmitCp(false)
+      console.log(inputs);
+      
+      const val = await dispatch(login(inputs));
+      console.log(val);
+      setDis(val); 
+      setSubmitCp(val);
+      console.log("errMsg : ", errMsg);
+      {val ? history.push('/user') : history.push('/')}
+      // console.log("dispatch value : ",dis);
+  }
 
     // const {email, password} = inputs;
 
     return(
         <div>
             <Container component="main" maxWidth="xs">
+            { error ? <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                        <DialogContent dividers>
+                        <Typography gutterBottom>
+                                Error
+                            </Typography>
+                            </DialogContent>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                {error.msg || errMsg} 
+                            </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                            Ok
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+                    : 
+                <div>
                 <CssBaseline></CssBaseline>
                 <div className={classes.paper}>
                   {submitCp ? <CircularProgress className={classes.circular}/> : 
@@ -137,6 +165,8 @@ export const LogIn = () => {
                       
                   </form>
                 </div>
+              </div>
+            }
             </Container>
         </div>
     );

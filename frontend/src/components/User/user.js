@@ -6,7 +6,7 @@ import moment from 'moment';
 import { getAllQuiz, deleteQuiz,getUserScores } from '../../actions/quiz';
 import { verifyUser } from '../../actions/user';
 
-import { CircularProgress, Card, CardContent, Typography, CardActions, Button, Grid, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
+import { CircularProgress, Card, CardContent, Typography, CardActions, Button, Grid, Dialog, DialogTitle, DialogActions, DialogContent } from '@material-ui/core';
 
 import useStyles from './userStyles';
 
@@ -24,7 +24,7 @@ export const User = () => {
 
     const [deleteq, setDeleteq] = useState(false);
     
-    const [open, setOpen] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
 
     const token = localStorage.getItem("jwtToken");
     console.log("jwtToken",token);
@@ -61,11 +61,11 @@ export const User = () => {
 
     const handleClickOpen = (id) => {
         setQuizId({...quizId,id});
-      setOpen(true);
+        setOpenDelete(true);
     };
   
-    const handleClose = () => {
-      setOpen(false);
+    const handleCloseDelete = () => {
+      setOpenDelete(false);
     };
 
     const deleteQuize = async () => {
@@ -85,19 +85,45 @@ export const User = () => {
         }
     }
 
+    const [open,setOpen] = useState(true);
+
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    
+    const handleClose = () => {
+      setOpen(false);
+    };
+
     return (
         <div>
-            { error ? errMsg.message || errMsg.msg : 
+            { error ? <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                Error
+                            </Typography>
+                            </DialogContent>
+                            <DialogContent dividers>
+                            <Typography gutterBottom>
+                                {error.msg || errMsg} 
+                            </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button autoFocus onClick={handleClose}>
+                                Ok
+                            </Button>
+                            </DialogActions>
+                        </Dialog> : 
             <div>
             <Dialog
-                open={open}
-                onClose={handleClose}
+                open={openDelete}
+                onClose={handleCloseDelete}
             >
                 <DialogTitle id="alert-dialog-title">
                     Do you really want to delete?
                 </DialogTitle>
                 <DialogActions>
-                    <Button onClick={handleClose}>Do Not Delete</Button>
+                    <Button onClick={handleCloseDelete}>Do Not Delete</Button>
                     <Button onClick={deleteQuize} autoFocus>
                         Delete
                     </Button>
