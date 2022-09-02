@@ -11,6 +11,7 @@ import {QuestionEdit} from './components/questionEdit/questionEdit';
 import {NewQuestion} from './components/newQuestion/newQuestion';
 import {NewQuiz} from './components/addQuiz/addQuiz';
 import {StartQuiz} from './components/startQuiz/startQuiz';
+import {UserProfile} from './components/userProfile/userProfile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Header></Header>
           <Switch>
             <Route path="/user"> <User/> </Route>
+            <Route path="/userprofile"> <UserProfile/> </Route>
             <Route path="/editquiz"> <Quiz/> </Route>
             <Route path="/register"> <Register/> </Route>
             <Route path="/editquestion"> <QuestionEdit/> </Route>

@@ -13,6 +13,7 @@ export const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   
+  
   const user = useSelector((state)=>state.data.user);
   console.log(user);
   
@@ -37,6 +38,12 @@ export const Header = () => {
     }
   },[user]);
 
+  const userProfile = () => {
+    setAnchorEl(null);
+    history.push('/userprofile');
+
+  }
+
   const logOut = async () => {
     setisUser(false);
     setAnchorEl(null);
@@ -51,12 +58,10 @@ export const Header = () => {
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar position="dense">
-              <Typography variant="h6" color="inherit" className={classes.title}>
+              <Typography component="a" variant="h6" color="inherit" className={classes.title} href="/user">
                 Quiz-App
               </Typography>
-              {/* <Button onClick={logOut}>
-                Log out
-              </Button> */}
+
               {isUser ?
                 <div>
                 <span> {firstname} </span>
@@ -82,7 +87,7 @@ export const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={userProfile}>Profile</MenuItem>
                 <MenuItem onClick={logOut}>Log Out</MenuItem>
               </Menu>
                 </div>

@@ -38,7 +38,7 @@ export const LogIn = () => {
   const [submitCp,setSubmitCp] = useState(false);
   const [dis,setDis] = useState(true);
 
-    const errMsg = useSelector((state)=>state.data.errMsg);
+  const errMsg = useSelector((state)=>state.data.errMsg);
     
     // console.log("errMsg : ", errMsg);
 

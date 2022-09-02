@@ -8,6 +8,8 @@ export default (initialState = {user:null,quizes:null,questions:[],load:false,er
             return {...initialState,user:null,load:false,error:false,quizes:null,questions:[],question:null,score:null}
         case "REGISTER":
             return {...initialState,user:action.user,load:false,error:false}
+        case "UPDATE_USER":
+            return {...initialState,user:action.user,load:false,error:false}
         case "GET_ALL_QUIZ":
             return {...initialState,quizes:action.quiz,load:false,error:false}
         case "GET_QUIZ":

@@ -68,12 +68,9 @@ exports.show = async (req,res) => {
 exports.update = async (req,res) => {
     try {
         const update = req.body;
-        // const id = req.params.id;
         const userId = req.user._id;
         console.log("update :",update);
-        // console.log("id :",id);
         console.log("userid :",userId);
-        // if (userId.toString() !== id.toString()) return res.status(401).json({message: "Sorry, you don't have the permission to upd this data."});
 
         const user = await User.findByIdAndUpdate(userId,{$set : update},{new:true});
 

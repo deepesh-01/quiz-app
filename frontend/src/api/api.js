@@ -6,8 +6,9 @@ const registerUrl = `http://localhost:8000/api/auth/register`;
 //get user score
 const userScoreUrl = `http://localhost:8000/api/score/userscores`
 
-//verify user
+//user urls
 const verifyUrl = `http://localhost:8000/api/user/verifyuser`
+const updateUserUrl = `http://localhost:8000/api/user/update`
 
 //quiz urls
 const getAllQuizUrl = `http://localhost:8000/api/quiz`;
@@ -29,7 +30,9 @@ export const login = (input) => axios.post(loginUrl,input);
 export const register = (input) => axios.post(registerUrl,input);
 
 // User Verify EndPoint
-export const verifyUser = (token) => axios.get(verifyUrl,{headers:{'authorization' : `Bearer ${token}`}});
+export const verifyUser = (token) => axios.get(verifyUrl,{headers:{'Authorization' : `Bearer ${token}`}});
+
+export const updateUser = (data,token) => axios.put(updateUserUrl,data,{headers:{'authorization' : `Bearer ${token}`}});
 
 // Quiz API endpoints
 export const getAllQuiz = () => axios.get(getAllQuizUrl);

@@ -89,6 +89,35 @@ export const verifyUser = () => async (dispatch) => {
     }
 }
 
+export const updateUser = (updateData) => async (dispatch) => {
+    try{
+        console.log("updateUser called in user/home");
+        dispatch({type:"LOAD"});
+        const token = localStorage.getItem("jwtToken");
+        console.log("token : ",token);
+        const user = await api.updateUser(updateData,token);
+        if(!user){
+            dispatch({type:"ERROR",msg:"Server Error"});
+            return false;
+        }
+        console.log("user in VERIFY action : ",user.data);
+        dispatch({type:"UPDATE_USER", user:user.data});
+        return true
+    }
+    catch(err){
+        if(!err.response){
+            const errmsg = { "msg" : "Server is not reachable!" };
+            dispatch({type:"ERROR", msg:errmsg});
+        }
+        else{
+            const errmsg = err.response.data;
+            console.log("Error message : ",err.response);
+            dispatch({type:"ERROR", msg:errmsg});
+            return false;
+        }
+    }
+}
+
 export const logOutUser = () => (dispatch) => {
     try{
         console.log("logOut action called");
