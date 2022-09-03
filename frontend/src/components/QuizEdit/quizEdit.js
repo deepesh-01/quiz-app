@@ -69,7 +69,7 @@ export const Quiz = (props) =>{
         else{ 
             setEmpty(false);
             console.log("data : ",data);
-            dispatch(updateQuiz(data,user.token));
+            dispatch(updateQuiz(data,token));
         }
     }
 
@@ -83,7 +83,7 @@ export const Quiz = (props) =>{
     }
 
     const handleDelete = (id) => {
-        const token = user.token;
+        const token = localStorage.getItem("jwtToken");
         console.log("id is : ",id);
         console.log("token is : ",token);
         const val = dispatch(deleteQuestion(id,token));

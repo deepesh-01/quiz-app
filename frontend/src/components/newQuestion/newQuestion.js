@@ -35,6 +35,8 @@ export const NewQuestion = () => {
         else{
             const verify = await dispatch(verifyUser());
             const val = await dispatch(getQuiz(quizId));
+            console.log("quizId",quizId);
+            setInputs({...inputs,quizId:quizId,createdBy:user.user._id});
         }
     },[]);
 
@@ -66,6 +68,7 @@ export const NewQuestion = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if(!inputs.quizId || !inputs.createdBy) setInputs({...inputs,quizId:quizId,createdBy:user.user._id});
         setEmpty(false);
         if(!inputs.question || !inputs.option1 || !inputs.option2 || !inputs.option3 || !inputs.option4 || !inputs.correctOption){
             setEmpty(true);
@@ -74,9 +77,11 @@ export const NewQuestion = () => {
         setEmpty(false);
         console.log("Inputs are : ",inputs);
         const token = localStorage.getItem("jwtToken");
-        setInputs({...inputs,quizId:quiz?.quiz?._id,createdBy:user?.user?._id});
+        console.log("userId",user.user._id);
+        console.log("quizId",quizId);
+        console.log(inputs);
         const val = await dispatch(newQuestion(inputs,token));
-        history.goBack();
+        if(val) history.goBack();
         console.log("val of newQuestion : ",val);
         }
     }

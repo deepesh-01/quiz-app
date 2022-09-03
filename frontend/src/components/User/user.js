@@ -124,7 +124,7 @@ export const User = () => {
                 </DialogTitle>
                 <DialogActions>
                     <Button onClick={handleCloseDelete}>Do Not Delete</Button>
-                    <Button onClick={deleteQuize} autoFocus>
+                    <Button onClick={()=>{deleteQuize();handleCloseDelete();}} autoFocus>
                         Delete
                     </Button>
                 </DialogActions>

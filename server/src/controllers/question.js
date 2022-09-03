@@ -68,6 +68,7 @@ exports.updateQuestion = async (req,res) => {
    try{
     const update = req.body;
     const quesId = req.body.id;
+    console.log("req.body",req.body);
     console.log(quesId);
     const question = await Question.findByIdAndUpdate(quesId,{$set : update},{new:true});
     if(!question) return res.status(401).json({message:"Please enter valid id"});

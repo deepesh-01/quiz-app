@@ -72,17 +72,20 @@ export const  QuestionEdit = () => {
       setOpen(false);
     };
 
+    let data = {};
     const handleSubmit = async (e) => {
         setEmpty(false)
         e.preventDefault();
-        const data = {id : questionId};
+        data["id"] = questionId;
         data[field] = value;
         console.log(data);
         if(value){
         handleOpenUpdate();
-        const val = await dispatch(updateQuestion(data,user.token));
-        console.log("val :",val);
+        const token = localStorage.getItem("jwtToken");
+        const val = await dispatch(updateQuestion(data,token));
+        console.log("val",val);
         setSuccess(val);
+        console.log("setSuccess",success);
         }
         else{
             setEmpty(true)
@@ -100,10 +103,10 @@ export const  QuestionEdit = () => {
                         aria-describedby="alert-dialog-description"
                         >
                         <DialogTitle id="alert-dialog-title">
-                        {setSuccess ? "Question updated successfully!" : "Question update failed!"}
+                        {success ? "Question updated successfully!" : "Question update failed!"}
                         </DialogTitle>
                         <DialogActions>
-                        <Button onClick={handleClose}>Done</Button>
+                        <Button onClick={handleCloseUpdate}>Done</Button>
                         </DialogActions>
                     </Dialog>
                     {error ? 

@@ -35,6 +35,7 @@ export const updateQuestion = (changes,token) => async (dispatch) => {
         dispatch({type:"LOAD"});
         const data = {changes, token};
         console.log(changes);
+        console.log(token);
         const updatedQuestion = await api.updateQuestion(data);
         console.log(updatedQuestion.data.question);
         if(!updatedQuestion.data){
@@ -86,7 +87,7 @@ export const newQuestion = (changes,token) => async (dispatch) => {
             // console.log("Error in login : ",err);
             const errmsg = err.response.data;
             console.log("Error message : ",errmsg);
-            dispatch({type:"ERROR", msg:errmsg.msg});
+            dispatch({type:"ERROR", msg:errmsg.message});
             return false;
         }
     }

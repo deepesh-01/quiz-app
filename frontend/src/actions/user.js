@@ -44,6 +44,7 @@ export const register = (input) => async (dispatch) => {
             return false;
         }
         dispatch({type:"REGISTER", user:user.data});
+        localStorage.setItem("jwtToken",user.data.token);
         return true
     }
     catch(err){
