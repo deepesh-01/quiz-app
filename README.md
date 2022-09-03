@@ -8,13 +8,13 @@ A MERN Stak quiz app where users can register and take take part in the differen
   -> Redux for global state management. \
   -> react-router-dom for routing. \
   -> localStorage for saving jwt token. \
-  -> Axios for connecting to backend. \
+  -> Axios for connecting to backend. 
   
   ### Backend
   -> Node and Express. \
   -> Mongoose for mongoDB. \
   -> BCrypt Library for hashing. \
-  -> Passport with jwt. \
+  -> Passport with jwt. 
 
 ## Screens
 
