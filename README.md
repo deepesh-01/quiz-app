@@ -29,6 +29,13 @@ A MERN Stak quiz app where users can register and take take part in the differen
 
 #### Dashboard
 
+##### Non-Admin User
+<img width="960" alt="nonAdminDashBoard" src="https://user-images.githubusercontent.com/60640528/188279963-bec296a7-7a00-4d7e-bc83-d3c456499ab9.PNG">
+
+##### Admin User
+<img width="960" alt="AdminDashBoard" src="https://user-images.githubusercontent.com/60640528/188279993-c32f78fc-f849-4ab3-ac06-f0ebeafb7bb6.PNG">
+
+
 #### User Profile
 ![userDetailsUpdate](https://user-images.githubusercontent.com/60640528/188276456-c52b88f9-c3c7-4f17-a462-ac6a2a2b76bc.gif)
 
